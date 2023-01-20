@@ -189,14 +189,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 181402471}
-  speed: 12
-  gravity: -19.62
-  jumpHeight: 3
   groundCheck: {fileID: 2021018521}
-  groundDistance: 0.4
   groundMask:
     serializedVersion: 2
     m_Bits: 1024
+  isSprinting: 0
+  isCrouching: 0
 --- !u!1 &453095592
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +366,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 939085247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.48, z: 0}
+  m_LocalPosition: {x: -0, y: 0.84, z: 0.12}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 181402472}
@@ -569,7 +567,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2021018520}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.803, z: 0}
+  m_LocalPosition: {x: 0, y: -2.73, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 181402472}
