@@ -6,10 +6,10 @@ using UnityEngine;
 //Controls looking around.
 public class MouseLook : MonoBehaviour
 {
-
-    public float mouseSensitivity = 100f;
+    private float mouseSensitivity = 1000f;
 
     public Transform playerBody;
+
 
     float xRotation = 0f;
 

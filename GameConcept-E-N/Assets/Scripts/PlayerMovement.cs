@@ -48,39 +48,13 @@ public class PlayerMovement : MonoBehaviour
         float x = Input.GetAxis("Horizontal");
         float z = Input.GetAxis("Vertical");
 
-        //Allows jump when grounded, if you are crouching disables crouch
-        if((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && isCrouching == true))
-        {
-            isCrouching = false;
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        //Toggles crouch
-        if (Input.GetKey(KeyCode.LeftControl))
-        {
-            if(isCrouching == false)
-            {
-                isCrouching = true;
-            }
-            else if(isCrouching == true)
-            {
-                isCrouching = false;
-            }
-        }
-
-        //toggles sprint. disables crouch if crouched
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            isSprinting = true;
-            isCrouching = false;
-        }
-        else
-        {
-            isSprinting = false;
-        }
+        jump();
+        crouchToggle();
+        sprintToggle();
 
         Vector3 move = transform.right * x + transform.forward * z;  //creates move which controls direction/speed.
 
+        //applys the crouch
         if (isCrouching == true)
         {
             controller.height = crouchingHeight;
@@ -91,15 +65,57 @@ public class PlayerMovement : MonoBehaviour
             controller.height = standingHeight;
         }
 
+        //applys the sprint
         if (isSprinting == true)
         {
             move *= sprintMultiplier;
         }
 
         controller.Move(move * speed * Time.deltaTime);
-
         velocity.y += gravity * Time.deltaTime;
-
         controller.Move(velocity * Time.deltaTime);
+    }
+
+    void jump()
+    {
+        //Allows jump when grounded, if you are crouching disables crouch
+        if ((Input.GetButtonDown("Jump") && isGrounded) || (Input.GetButtonDown("Jump") && isCrouching == true))
+        {
+            isCrouching = false;
+            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        }
+    }
+
+    void crouchToggle()
+    {
+        //Toggles crouch
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            if (isCrouching == false)
+            {
+                isCrouching = true;
+            }
+            else if (isCrouching == true)
+            {
+                isCrouching = false;
+            }
+        }
+    }
+
+    void sprintToggle()
+    {
+        //toggles sprint. disables crouch if crouched
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            if (isSprinting == false)
+            {
+                isSprinting = true;
+                isCrouching = false;
+            }
+            else if (isSprinting == true)
+            {
+                isSprinting = false;
+            }
+        }
     }
 }
