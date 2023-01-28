@@ -6,31 +6,36 @@ using UnityEngine;
 //Controls looking around.
 public class MouseLook : MonoBehaviour
 {
-    private float mouseSensitivity = 1000f;
+    public float sensX;
+    public float sensY;
 
-    public Transform playerBody;
+    public Transform orientation;
 
+    private float xRotation;
+    private float yRotation;
 
-    float xRotation = 0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        //prevent looking more than 180 degrees up/down
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     // Updates the look 
     void Update()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
+        float mouseX = Input.GetAxisRaw("Mouse X") * sensX * Time.deltaTime;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * sensY * Time.deltaTime;
+
+        yRotation += mouseX;
         xRotation -= mouseY;
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+        //rotate cam and orientation
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
     }
 }

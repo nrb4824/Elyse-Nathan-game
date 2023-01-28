@@ -1,20 +1,27 @@
-using System;
-using System.Runtime;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
 
-    private float damage = 10f;
-    private float range = 500f;
-    private float impactForce = 30f;
-    private float fireRate = 2f;
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float range = 500f;
+    [SerializeField] private float impactForce = 30f;
+    [SerializeField] private float fireRate = 20f;
 
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
 
     private float nextTimeToFire = 0f;
+
+    public Recoil Recoil_Script;
+
+
+    public void Start()
+    {
+        /*Recoil_Script = transform.Find("CameraRot/CameraRecoil").GetComponent<Recoil>();*/
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -25,7 +32,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    void Shoot()
+    public void Shoot()
     {
         muzzleFlash.Play();
 
@@ -41,6 +48,7 @@ public class Gun : MonoBehaviour
             {
                 target.TakeDamage(damage);
             }
+            Recoil_Script.RecoilFire();
 
             //force if object is hit. Will be important when we add more physics or for small objects.
             if(hit.rigidbody != null)
@@ -51,6 +59,8 @@ public class Gun : MonoBehaviour
             //instantiates and destroys bullet impact effect.
             GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
             Destroy(impactGameObject, 2f);
+            
+            
         }
     }
 }
