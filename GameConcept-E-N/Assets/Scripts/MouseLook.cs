@@ -26,7 +26,6 @@ public class MouseLook : MonoBehaviour
     // Updates the look 
     void Update()
     {
-
         float mouseX = Input.GetAxisRaw("Mouse X") * sensX * Time.deltaTime;
         float mouseY = Input.GetAxisRaw("Mouse Y") * sensY * Time.deltaTime;
 

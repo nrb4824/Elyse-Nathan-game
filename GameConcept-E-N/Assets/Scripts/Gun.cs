@@ -37,6 +37,8 @@ public class Gun : MonoBehaviour
         muzzleFlash.Play();
 
         RaycastHit hit;  //stores all of the bullet info
+        Recoil_Script.RecoilFire();
+
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
             Debug.Log(hit.transform.name);    //remove eventually
@@ -48,7 +50,7 @@ public class Gun : MonoBehaviour
             {
                 target.TakeDamage(damage);
             }
-            Recoil_Script.RecoilFire();
+            
 
             //force if object is hit. Will be important when we add more physics or for small objects.
             if(hit.rigidbody != null)
