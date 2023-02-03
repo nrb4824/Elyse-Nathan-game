@@ -8,12 +8,12 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
     private float moveSpeed;
+    private float desiredMoveSpeed;
+    private float lastDesiredMoveSpeed;
     public float walkSpeed;
     public float sprintSpeed;
     public float slideSpeed;
-
-    private float desiredMoveSpeed;
-    private float lastDesiredMoveSpeed;
+    public float wallrunSpeed;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
@@ -61,12 +61,15 @@ public class PlayerMovement : MonoBehaviour
     {
         walking,
         sprinting,
+        wallRunning,
         crouching,
         sliding,
         air
     }
 
     public bool sliding;
+    public bool crouching;
+    public bool wallrunning;
 
     // Start is called before the first frame update
     void Start()
@@ -133,6 +136,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {
+        // Mode - Wallrunning
+        if (wallrunning)
+        {
+            state = MovementState.wallRunning;
+            desiredMoveSpeed = wallrunSpeed;
+        }
+
         // Mode - Sliding
         if (sliding)
         {
