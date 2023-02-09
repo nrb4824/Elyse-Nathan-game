@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour
 
     public void Start()
     {
-        /*Recoil_Script = transform.Find("CameraRot/CameraRecoil").GetComponent<Recoil>();*/
+        
     }
 
     // Update is called once per frame

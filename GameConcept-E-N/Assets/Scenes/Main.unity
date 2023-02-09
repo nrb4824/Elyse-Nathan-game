@@ -2260,6 +2260,7 @@ GameObject:
   - component: {fileID: 939085249}
   - component: {fileID: 939085248}
   - component: {fileID: 939085251}
+  - component: {fileID: 939085252}
   m_Layer: 0
   m_Name: PlayerCam
   m_TagString: MainCamera
@@ -2349,6 +2350,20 @@ MonoBehaviour:
   sensY: 600
   orientation: {fileID: 622678161}
   camHolder: {fileID: 138101928}
+--- !u!114 &939085252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939085247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada43d8caebe60e4eaac0821773931f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gun: {fileID: 1421123405}
+  showGun: 0
 --- !u!1 &1063039094
 GameObject:
   m_ObjectHideFlags: 0
@@ -2865,7 +2880,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_LocalScale.x
@@ -2897,15 +2912,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4605138725861208, guid: 930c2cf00d792e54fb886c57ff9b9dd2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3529,9 +3544,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 622678161}
-  recoilX: -5
-  recoilY: 5
-  recoilZ: 7
+  recoilX: -2
+  recoilY: 2
+  recoilZ: 2
   kickBackZ: 0
   snappiness: 5
   returnSpeed: 5
