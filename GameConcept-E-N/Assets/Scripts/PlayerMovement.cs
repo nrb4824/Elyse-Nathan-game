@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float sprintSpeed;
     public float slideSpeed;
     public float wallrunSpeed;
+    public float climbSpeed;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpCooldown;
     public float airMultiplier;
     private bool readyToJump;
+    public float fallMultiplier;
 
     [Header("Crouching")]
     public float crouchSpeed;
@@ -40,12 +42,15 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask Ground;
-    private bool grounded;
+    public bool grounded;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
     private bool exitingSlope;
+
+    [Header("References")]
+    public Climbing climbingScript;
 
     public Transform orientation;
 
@@ -64,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
         walking,
         sprinting,
         wallRunning,
+        climbing,
         crouching,
         sliding,
         air
@@ -72,6 +78,7 @@ public class PlayerMovement : MonoBehaviour
     public bool sliding;
     public bool crouching;
     public bool wallrunning;
+    public bool climbing;
 
     public bool freeze;
     public bool unlimited;
@@ -158,6 +165,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
+        }
+
+        // Mode - Climbing
+        else if (climbing)
+        {
+            state = MovementState.climbing;
+            desiredMoveSpeed = climbSpeed;
         }
 
         // Mode - Wallrunning
@@ -272,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
-        if (restricted) return;
+        if (climbingScript.exitingWall || restricted) return;
 
         //calculate movement direction
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
@@ -298,6 +312,7 @@ public class PlayerMovement : MonoBehaviour
         else if (!grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
         }
 
         // turn gravity off while on slope
