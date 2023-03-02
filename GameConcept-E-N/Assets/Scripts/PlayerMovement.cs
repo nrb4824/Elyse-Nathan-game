@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
     private bool exitingSlope;
+    public float slopeSpeed;
 
     [Header("References")]
     public Climbing climbingScript;
@@ -294,7 +295,7 @@ public class PlayerMovement : MonoBehaviour
         // on slope
         if (OnSlope() && !exitingSlope)
         {
-            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * 20f, ForceMode.Force);
+            rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * slopeSpeed, ForceMode.Force);
 
             if(rb.velocity.y > 0)
             {

@@ -13,8 +13,6 @@ public class Climbing : MonoBehaviour
 
     [Header("Climbing")]
     public float climbSpeed;
-    public float maxClimbTime;
-    private float climbTimer;
 
     private bool climbing;
 
@@ -67,11 +65,8 @@ public class Climbing : MonoBehaviour
         // State 1 -Climbing
         else if(wallFront && Input.GetKey(KeyCode.W) && wallLookAngle < maxWallLookAngle && !exitingWall)
         {
-            if (!climbing && climbTimer > 0) StartClimbing();
-
-            // timer
-            if (climbTimer > 0) climbTimer -= Time.deltaTime;
-            if (climbTimer < 0) StopClimbing();
+            if (!climbing) StartClimbing();
+           
         }
 
         // State 2 - Exiting
@@ -101,7 +96,6 @@ public class Climbing : MonoBehaviour
 
         if((wallFront && newWall) || pm.grounded)
         {
-            climbTimer = maxClimbTime;
             climbJumpsLeft = climbJumps;
         }
     }

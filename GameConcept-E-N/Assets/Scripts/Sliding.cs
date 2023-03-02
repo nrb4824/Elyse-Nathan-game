@@ -13,6 +13,7 @@ public class Sliding : MonoBehaviour
     [Header("Sliding")]
     public float maxSlideTime;
     public float slideForce;
+    public float slopeSlideForce;
     private float slideTimer;
 
     public float slideYScale;
@@ -81,7 +82,7 @@ public class Sliding : MonoBehaviour
         // sliding down a slope
         else
         {
-            rb.AddForce(pm.GetSlopeMoveDirection(inputDirection) * slideForce, ForceMode.Force);
+            rb.AddForce(pm.GetSlopeMoveDirection(inputDirection) * slopeSlideForce, ForceMode.Force);
         }
 
         if(slideTimer <= 0)

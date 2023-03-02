@@ -18,10 +18,10 @@ public class WallRunning : MonoBehaviour
 
     [Header("Input")]
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode upwardsRunKey = KeyCode.LeftShift;  // go higher on wall by pressing shift
-    public KeyCode downwardsRunKey = KeyCode.LeftControl;  // go lower on wall by pressing control
-    private bool upwardsRunning;
-    private bool downwardsRunning;
+    //public KeyCode upwardsRunKey = KeyCode.LeftShift;  // go higher on wall by pressing shift
+    //public KeyCode downwardsRunKey = KeyCode.LeftControl;  // go lower on wall by pressing control
+    //private bool upwardsRunning;
+    //private bool downwardsRunning;
     private float horizontalInput;
     private float verticalInput;
 
@@ -87,8 +87,8 @@ public class WallRunning : MonoBehaviour
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
 
-        upwardsRunning = Input.GetKey(upwardsRunKey);
-        downwardsRunning = Input.GetKey(downwardsRunKey);
+        //upwardsRunning = Input.GetKey(upwardsRunKey);
+        //downwardsRunning = Input.GetKey(downwardsRunKey);
 
         // State 1 - Wallrunning
         if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)  // Pressing w and above ground and touching a wall
@@ -182,14 +182,14 @@ public class WallRunning : MonoBehaviour
         rb.AddForce(wallForward * wallRunForce, ForceMode.Force);
 
         // upwards/downwards force
-        if (upwardsRunning)
+        /*if (upwardsRunning)
         {
             rb.velocity = new Vector3(rb.velocity.x, wallClimbSpeed, rb.velocity.z);
         }
         if (downwardsRunning)
         {
             rb.velocity = new Vector3(rb.velocity.x, -wallClimbSpeed, rb.velocity.z);
-        }
+        }*/
 
         // push to wall force
         if (!(wallLeft && horizontalInput > 0) && !(wallRight && horizontalInput < 0))
