@@ -21,6 +21,7 @@ public class LedgeGrabbing : MonoBehaviour
 
     [Header("Ledge Jumping")]
     public KeyCode jumpKey = KeyCode.Space;
+    public KeyCode dismountKey = KeyCode.LeftControl;
     public float ledgeJumpForwardForce;
     public float ledgeJumpUpwardForce;
 
@@ -58,9 +59,9 @@ public class LedgeGrabbing : MonoBehaviour
 
             timeOnLedge += Time.deltaTime;
 
-            if (timeOnLedge > minTimeOnLedge && anyInputKeyPressed) ExitLedgeHold();
+            if (timeOnLedge > minTimeOnLedge && Input.GetKey(jumpKey)) LedgeJump();
 
-            if (Input.GetKeyDown(jumpKey)) LedgeJump();
+            if (timeOnLedge > minTimeOnLedge && Input.GetKeyDown(dismountKey)) ExitLedgeHold();
         }
 
         // Substate 2 - Exiting Ledge
@@ -120,6 +121,7 @@ public class LedgeGrabbing : MonoBehaviour
 
         rb.useGravity = false;
         rb.velocity = Vector3.zero;
+        
     }
 
     private void FreezeRigidbodyOnLedge()
@@ -137,17 +139,14 @@ public class LedgeGrabbing : MonoBehaviour
                 rb.AddForce(directionToLedge.normalized * moveToLedgeSpeed * 1000f * Time.deltaTime);
             }
         }
-
         // Hold onto ledge
         else
         {
             if (!pm.freeze) pm.freeze = true;
         }
-
         // Exiting if something goes wrong
         if (distanceToLedge > maxLedgeGrabDistance) ExitLedgeHold();
     }
-
     private void ExitLedgeHold()
     {
         exitingLedge = true;
