@@ -33,6 +33,12 @@ public class PlayerMovement : MonoBehaviour
     public float crouchYScale;
     private float startYScale;
 
+    [Header("Stairs")]
+    public GameObject stepRayUpper;
+    public GameObject stepRayLower;
+    public float stepHeight;
+    public float stepSmooth;
+
 
     [Header("Keybinds")]
     public KeyCode jumpKey = KeyCode.Space;
@@ -88,12 +94,17 @@ public class PlayerMovement : MonoBehaviour
 
     bool keepMomentum;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
 
+        stepRayUpper.transform.position = new Vector3(stepRayUpper.transform.position.x, stepHeight + rb.position.y-1, stepRayUpper.transform.position.z);
+    }
+
+    // Start is called before the first frame update
+    void Start()
+    {
         readyToJump = true;
 
         startYScale = transform.localScale.y;
@@ -122,6 +133,7 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+        
     }
 
     private void MyInput()
@@ -187,7 +199,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.sliding;
 
-            if(OnSlope() && rb.velocity.y < 0.1f)
+            if (OnSlope() && rb.velocity.y < 0.1f)
             {
                 desiredMoveSpeed = slideSpeed;
                 keepMomentum = true;
@@ -213,7 +225,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Mode - Walking
-        else if(grounded)
+        else if (grounded)
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
@@ -297,16 +309,17 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(GetSlopeMoveDirection(moveDirection) * moveSpeed * slopeSpeed, ForceMode.Force);
 
-            if(rb.velocity.y > 0)
+            if (rb.velocity.y > 0)
             {
                 rb.AddForce(Vector3.down * 80f, ForceMode.Force);
             }
         }
 
         // on ground
-        else if(grounded)
+        else if (grounded)
         {
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+            stepClimb();
         }
 
         // in air
@@ -321,6 +334,7 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.useGravity = !OnSlope();
         }
+        
     }
 
     private void SpeedControl()
@@ -379,5 +393,39 @@ public class PlayerMovement : MonoBehaviour
     public Vector3 GetSlopeMoveDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, slopeHit.normal).normalized;
+    }
+
+    public void stepClimb()
+    {
+        RaycastHit hitLower;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(Vector3.forward), out hitLower, 0.3f))
+        {
+            RaycastHit hitUpper;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, 0.4f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+
+        }
+
+        RaycastHit hitLower45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitLower45, 0.3f))
+        {
+            RaycastHit hitUpper45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(1.5f, 0, 1), out hitUpper45, 0.4f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+        }
+
+        RaycastHit hitLowerMinus45;
+        if (Physics.Raycast(stepRayLower.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitLowerMinus45, 0.3f))
+        {
+            RaycastHit hitUpperMinus45;
+            if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(-1.5f, 0, 1), out hitUpperMinus45, 0.4f))
+            {
+                rb.position -= new Vector3(0f, -stepSmooth, 0f);
+            }
+        }
     }
 }
