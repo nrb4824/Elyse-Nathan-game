@@ -22,7 +22,9 @@ public class AttackState : BaseState
         if(attackReadyTimer <= 0f)
         {
             Debug.Log("Attack!");
+            attackReadyTimer = EnemySettings.AttackSpeed;
             drone.FireWeapon();
+            drone.SetTarget(null);
         }
         return null;
     }

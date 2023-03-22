@@ -17,6 +17,9 @@ public class EnemySettings : MonoBehaviour
     [SerializeField] private GameObject droneProjectilePrefab;
     public static GameObject DroneProjectilePrefab => Instance.droneProjectilePrefab;
 
+    [SerializeField] private float attackSpeed = 2.0f;
+    public static float AttackSpeed => Instance.attackSpeed;
+
 
     private void Awake()
     {

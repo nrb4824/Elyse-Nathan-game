@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +16,18 @@ public class ChaseState : BaseState
     public override Type Tick()
     {
         if (drone.Target == null) return typeof(WanderState);
-
-        transform.LookAt(drone.Target);
+        drone.Move();
+        transform.LookAt(new Vector3(drone.Target.position.x, drone.transform.position.y, drone.Target.position.z));
         transform.Translate(Vector3.forward * Time.deltaTime * EnemySettings.DroneSpeed);
 
         var Distance = Vector3.Distance(transform.position, drone.Target.transform.position);
         if(Distance <= EnemySettings.AttackRange)
         {
             return typeof(AttackState);
+        }
+        else if(Distance >= EnemySettings.AggroRadius)
+        {
+            return typeof(WanderState);
         }
 
         return null;

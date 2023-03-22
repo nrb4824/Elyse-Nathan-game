@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,7 +24,8 @@ public class WanderState : BaseState
     public override Type Tick()
     {
         var chaseTarget = CheckForAggro();
-        if(chaseTarget != null)
+        drone.Move();
+        if (chaseTarget != null)
         {
             drone.SetTarget(chaseTarget);
             return typeof(ChaseState);
@@ -45,7 +47,7 @@ public class WanderState : BaseState
             transform.Translate(Vector3.forward * Time.deltaTime * EnemySettings.DroneSpeed);
         }
 
-        Debug.DrawRay(transform.position, direction * rayDistance, Color.red);
+        Debug.DrawRay(transform.position, direction * rayDistance, Color.green);
         while(IsPathBlocked())
         {
             FindRandomDestination();
@@ -92,12 +94,17 @@ public class WanderState : BaseState
         {
             if (Physics.Raycast(pos, directionLocal, out hit, EnemySettings.AggroRadius))
             {
-                var drone = hit.collider.GetComponent<Drone>();
+                var player = hit.collider.GetComponent<Player>();
+                if (player != null)
+                {
+                    return player.transform;
+                }
+                /*var drone = hit.collider.GetComponent<Drone>();
                 if (drone != null && drone.GetTeam() != gameObject.GetComponent<Drone>().GetTeam())
                 {
                     Debug.DrawRay(pos, directionLocal * hit.distance, Color.red);
                     return drone.transform;
-                }
+                }*/
                 else
                 {
                     Debug.DrawRay(pos, direction * hit.distance, Color.yellow);
@@ -109,6 +116,7 @@ public class WanderState : BaseState
             }
             directionLocal = stepAngle * directionLocal;
         }
+        
         return null;
 
     }
