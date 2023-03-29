@@ -48,6 +48,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask Ground;
+    public LayerMask Water;
+    public bool watered;
     public bool grounded;
 
     [Header("Slope Handling")]
@@ -115,12 +117,20 @@ public class PlayerMovement : MonoBehaviour
     {
         // ground check
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
+        watered = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Water);
         MyInput();
         SpeedControl();
         StateHandler();
 
         //handle drag
-        if (grounded)
+        if(watered)
+        {
+            LevelManager.instance.GameOver();
+            gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+        }
+        else if (grounded)
         {
             rb.drag = groundDrag;
         }

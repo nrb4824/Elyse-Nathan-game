@@ -2548,6 +2548,10 @@ MonoBehaviour:
   Ground:
     serializedVersion: 2
     m_Bits: 1024
+  Water:
+    serializedVersion: 2
+    m_Bits: 16
+  watered: 0
   grounded: 0
   maxSlopeAngle: 40
   slopeSpeed: 20
@@ -13630,7 +13634,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492758349}
   m_LocalRotation: {x: -0, y: -0.6402943, z: -0, w: 0.76812965}
-  m_LocalPosition: {x: -8.93, y: 1.66, z: -27.99}
+  m_LocalPosition: {x: -39.44, y: 5.95, z: -27.14}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 138101928}
