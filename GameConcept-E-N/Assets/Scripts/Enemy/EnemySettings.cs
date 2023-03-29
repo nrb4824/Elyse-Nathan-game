@@ -20,6 +20,12 @@ public class EnemySettings : MonoBehaviour
     [SerializeField] private float attackSpeed = 2.0f;
     public static float AttackSpeed => Instance.attackSpeed;
 
+    [SerializeField] private float health = 50.0f;
+    public static float Health => Instance.health;
+
+    [SerializeField] private float damage = 10.0f;
+    public static float Damage => Instance.damage;
+
 
     private void Awake()
     {

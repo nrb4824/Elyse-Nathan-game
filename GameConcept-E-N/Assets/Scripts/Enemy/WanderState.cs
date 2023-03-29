@@ -97,6 +97,7 @@ public class WanderState : BaseState
                 var player = hit.collider.GetComponent<Player>();
                 if (player != null)
                 {
+                    drone.SetPlayer(player);
                     return player.transform;
                 }
                 /*var drone = hit.collider.GetComponent<Drone>();

@@ -9,11 +9,11 @@ public class Drone : MonoBehaviour
 {
 
     [SerializeField] private Team team;
+    public Target t;
     //[SerializeField] private GameObject laserVisual;
-    private float health { get; set; }
-    private float damage { get; set; }
     private Animator anim;
     public Transform Target { get; private set; }
+    public Player playerObject { get; private set; }
 
     public Team GetTeam()
     {
@@ -46,6 +46,11 @@ public class Drone : MonoBehaviour
         Target = target;
     }
 
+    public void SetPlayer(Player player)
+    {
+        playerObject = player;
+    }
+
     public void Move()
     {
         anim.SetBool("Forward", true);
@@ -66,7 +71,10 @@ public class Drone : MonoBehaviour
         float distance = Vector3.Distance(Target.position, transform.position);
         //laserVisual.transform.localScale = new Vector3(.1f, .1f, distance);
         //laserVisual.SetActive(true);
-
+        if(playerObject != null)
+        {
+            playerObject.TakeDamage(EnemySettings.Damage);
+        }
         Attack();
 
         StartCoroutine(TurnOffLaser());
