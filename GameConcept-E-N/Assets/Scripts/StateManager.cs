@@ -13,7 +13,14 @@ public class StateManager : MonoBehaviour
     {
         if(name != null)
         {
+            if (name != "Menu" && name != "Controls")
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
+            }
             SceneManager.LoadScene(name);
+            
         }
         
     }

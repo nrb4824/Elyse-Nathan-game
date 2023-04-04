@@ -9,7 +9,6 @@ public class Drone : MonoBehaviour
 {
 
     [SerializeField] private Team team;
-    public Target t;
     //[SerializeField] private GameObject laserVisual;
     private Animator anim;
     public Transform Target { get; private set; }
