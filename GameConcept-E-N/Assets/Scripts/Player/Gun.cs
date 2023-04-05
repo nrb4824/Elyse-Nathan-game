@@ -45,6 +45,12 @@ public class Gun : MonoBehaviour
             Debug.Log(hit.transform.name);    //remove eventually
 
             Target target = hit.transform.GetComponent<Target>();
+            DestroyableObject dp = hit.transform.GetComponent<DestroyableObject>();
+
+            if(dp != null)
+            {
+                dp.Die(hit);
+            }
 
             //if object shot is a target(has health)
             if(target != null)
