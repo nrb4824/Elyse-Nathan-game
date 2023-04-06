@@ -153,6 +153,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4588a5c874c3a28458dafd96a9143b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  destroyed: 0
+  atEnd: 0
+  endBlock: {fileID: 0}
+  canEnter: {fileID: 0}
 --- !u!114 &186696461
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -677,7 +681,8 @@ MonoBehaviour:
     Ledge Grab: Jump near an edge, the player will stop on the ledge for a minimum
     of one second. Press SPACE to climb up the ledge, or Left Control to dismount.\r\n-
     Climbing: Walls that are climbable can be climbed by running up to the wall and
-    continuing to press W.\r\n\r\n\n"
+    continuing to press W.\r\n- Press \u2018P\u2019 to pause the game, press \u2018P\u2019
+    or Resume to Resume the game.\n\r\n\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
   m_sharedMaterial: {fileID: 2164040, guid: 5302535af1044152a457ed104f1f4b91, type: 2}
@@ -704,7 +709,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40.75
+  m_fontSize: 38.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

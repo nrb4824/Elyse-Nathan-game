@@ -4,6 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class StateManager : MonoBehaviour
 {
+    public void Awake()
+    {
+        if(SceneManager.GetActiveScene().name == "lv1")
+        {
+
+        }
+    }
     public void ReloadCurrentScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
@@ -20,6 +27,7 @@ public class StateManager : MonoBehaviour
                 Time.timeScale = 1f;
             }
             SceneManager.LoadScene(name);
+
             
         }
         

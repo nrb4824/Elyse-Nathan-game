@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using System;
 
 public class Target : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class Target : MonoBehaviour
 
     private float maxHealth;
 
-    private void Awake()
+    private void Start()
     {
         health = EnemySettings.Health;
         maxHealth = health;

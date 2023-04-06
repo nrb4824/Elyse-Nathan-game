@@ -10,6 +10,8 @@ public class DestroyableObject : MonoBehaviour
     {
         GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impactGameObject, 2f);
+        LevelManager.instance.destroyed = true;
+        LevelManager.instance.endBlock.GetComponent<Renderer>().material = LevelManager.instance.canEnter;
         Destroy(gameObject);
     }
 }

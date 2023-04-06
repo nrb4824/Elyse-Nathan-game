@@ -52,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
     public bool watered;
     public bool grounded;
 
+    [Header("End Check")]
+    public bool atEnd = false;
+    public LayerMask EndBlock;
+
     [Header("Slope Handling")]
     public float maxSlopeAngle;
     private RaycastHit slopeHit;
@@ -116,6 +120,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // ground check
+        atEnd = Physics.Raycast(transform.position, Vector3.forward, 0.6f, EndBlock);
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         watered = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Water);
         MyInput();
@@ -174,9 +179,21 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void StateHandler()
-    {
+    {   // at the end of the game
+        if(atEnd)
+        {
+            LevelManager.instance.atEnd = true;
+            if(LevelManager.instance.destroyed)
+            {
+                LevelManager.instance.GameWon();
+                gameObject.SetActive(false);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            
+        }
         // Mode - Freeze
-        if (freeze)
+        else if (freeze)
         {
             state = MovementState.freeze;
             rb.velocity = Vector3.zero;
