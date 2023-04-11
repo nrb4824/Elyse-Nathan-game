@@ -25,6 +25,7 @@ public class LevelManager : MonoBehaviour
         UIManager ui = GetComponent<UIManager>();
         if(ui != null)
         {
+            Time.timeScale = 0f;
             ui.ToggleDeathPanel();
         }
     }

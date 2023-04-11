@@ -3494,6 +3494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 100
+  p: {fileID: 181402470}
   healthBar: {fileID: 1564867667}
 --- !u!1 &640581436
 GameObject:

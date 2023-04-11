@@ -127,7 +127,6 @@ public class PlayerMovement : MonoBehaviour
         SpeedControl();
         StateHandler();
 
-        //handle drag
         if(watered)
         {
             LevelManager.instance.GameOver();

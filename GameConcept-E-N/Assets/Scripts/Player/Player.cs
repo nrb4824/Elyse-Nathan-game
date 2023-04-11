@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public float health;
     private float maxHealth;
+    [SerializeField] private GameObject p;
     [SerializeField] private Image healthBar;
     private bool player = true;
 
@@ -36,7 +37,7 @@ public class Player : MonoBehaviour
     void Die()
     {
         LevelManager.instance.GameOver();
-        gameObject.SetActive(false);
+        p.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
