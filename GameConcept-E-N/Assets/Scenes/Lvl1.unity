@@ -1504,8 +1504,8 @@ MonoBehaviour:
   crouchYScale: 0.5
   stepRayUpper: {fileID: 2124868929}
   stepRayLower: {fileID: 1653979173}
-  stepHeight: 0.55
-  stepSmooth: 0.4
+  stepHeight: 0.3
+  stepSmooth: 0.15
   jumpKey: 32
   sprintKey: 304
   crouchKey: 99
@@ -8696,7 +8696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492758349}
   m_LocalRotation: {x: -0, y: -0.80375606, z: -0, w: 0.594959}
-  m_LocalPosition: {x: -14.8, y: 3.54, z: -102.9}
+  m_LocalPosition: {x: 224.37, y: 34.9, z: -267.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 138101928}
