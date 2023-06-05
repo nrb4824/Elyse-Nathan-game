@@ -10,7 +10,7 @@ public class BeeWanderState : BeeBaseState
     private Vector3? destination;   //nullable
     private float stopDistance = 1f;
     private float turnSpeed = 1f;
-    private readonly LayerMask layerMask = LayerMask.NameToLayer("Walls");
+    private readonly LayerMask layerMask = LayerMask.NameToLayer("Default");
     private float rayDistance = 3.5f;
     private Quaternion desiredRotation;
     private Vector3 direction;
@@ -108,10 +108,6 @@ public class BeeWanderState : BeeBaseState
                     {
                         Debug.DrawRay(pos, direction * hit.distance, Color.yellow);
                     }
-                }
-                else
-                {
-                    Debug.DrawRay(pos, directionToTarget * BeeEnemySettings.AggroRadius, Color.white);
                 }
             }
         }

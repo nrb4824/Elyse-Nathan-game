@@ -17,7 +17,7 @@ public class BeeChaseState : BeeBaseState
     {
         if (bee.Target == null) return typeof(BeeWanderState);
         bee.Move();
-        transform.LookAt(new Vector3(bee.Target.position.x, bee.transform.position.y, bee.Target.position.z));
+        transform.LookAt(new Vector3(bee.Target.position.x, bee.Target.position.y, bee.Target.position.z));
         transform.Translate(Vector3.forward * Time.deltaTime * BeeEnemySettings.BeeSpeed);
 
         var Distance = Vector3.Distance(transform.position, bee.Target.transform.position);

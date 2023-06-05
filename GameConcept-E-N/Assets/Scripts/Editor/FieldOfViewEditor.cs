@@ -10,6 +10,7 @@ public class FieldOfViewEditor : Editor
         Handles.color = Color.white;
         Handles.DrawWireArc(bee.transform.position, Vector3.up, Vector3.forward, 360, BeeEnemySettings.AggroRadius);
         Handles.DrawWireArc(bee.transform.position, Vector3.forward, Vector3.up, 360, BeeEnemySettings.AggroRadius);
+        Handles.DrawWireArc(bee.transform.position, Vector3.right, Vector3.forward, 360, BeeEnemySettings.AggroRadius);
 
         Vector3 viewAngle01 = DirectionFromAngle(bee.transform.eulerAngles.y, -BeeEnemySettings.Angle / 2);
         Vector3 viewAngle02 = DirectionFromAngle(bee.transform.eulerAngles.y, BeeEnemySettings.Angle / 2);
@@ -19,8 +20,8 @@ public class FieldOfViewEditor : Editor
         Handles.DrawLine(bee.transform.position, bee.transform.position + viewAngle02 * BeeEnemySettings.AggroRadius);
 
 
-        Vector3 viewAngle03 = DirectionFromAngleY(bee.transform.eulerAngles.y, -BeeEnemySettings.Angle / 2);
-        Vector3 viewAngle04 = DirectionFromAngleY(bee.transform.eulerAngles.y, BeeEnemySettings.Angle / 2);
+        Vector3 viewAngle03 = DirectionFromAngleY(bee.transform.eulerAngles.z, -BeeEnemySettings.Angle / 2);
+        Vector3 viewAngle04 = DirectionFromAngleY(bee.transform.eulerAngles.z, BeeEnemySettings.Angle / 2);
 
         Handles.DrawLine(bee.transform.position, bee.transform.position + viewAngle03 * BeeEnemySettings.AggroRadius);
         Handles.DrawLine(bee.transform.position, bee.transform.position + viewAngle04 * BeeEnemySettings.AggroRadius);
