@@ -10,7 +10,7 @@ public class BeeWanderState : BeeBaseState
     private Vector3? destination;   //nullable
     private float stopDistance = 1f;
     private float turnSpeed = 1f;
-    private readonly LayerMask layerMask = LayerMask.NameToLayer("Default");
+    private readonly LayerMask layerMask = LayerMask.NameToLayer("Walls");
     private float rayDistance = 3.5f;
     private Quaternion desiredRotation;
     private Vector3 direction;
@@ -71,7 +71,7 @@ public class BeeWanderState : BeeBaseState
     private void FindRandomDestination()
     {
         Vector3 testPosition = (transform.position + (transform.forward * 4f)) +
-                                new Vector3(UnityEngine.Random.Range(-4.5f, 4.5f), UnityEngine.Random.Range(-2.5f, 2.5f),
+                                new Vector3(UnityEngine.Random.Range(-4.5f, 4.5f), UnityEngine.Random.Range(-1.5f, 1.5f),
                                 UnityEngine.Random.Range(-4.5f, 4.5f));
 
         destination = new Vector3(testPosition.x, testPosition.y, testPosition.z);

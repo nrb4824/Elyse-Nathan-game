@@ -7,6 +7,11 @@ using UnityEngine;
 public class BeeChaseState : BeeBaseState
 {
     private Bee bee;
+    private readonly LayerMask layerMask = LayerMask.NameToLayer("Walls");
+    private float rayDistance = 3.5f;
+    private float turnSpeed = 1f;
+    private bool blocked = false;
+    private float blockedCount = 0f;
 
     public BeeChaseState(Bee b) : base(b.gameObject)
     {
@@ -17,11 +22,53 @@ public class BeeChaseState : BeeBaseState
     {
         if (bee.Target == null) return typeof(BeeWanderState);
         bee.Move();
-        transform.LookAt(new Vector3(bee.Target.position.x, bee.Target.position.y, bee.Target.position.z));
-        transform.Translate(Vector3.forward * Time.deltaTime * BeeEnemySettings.BeeSpeed);
+        var direction = new Vector3(bee.Target.position.x, bee.Target.position.y, bee.Target.position.z);
+        var desiredRotation = Quaternion.LookRotation(direction);
+        
+
+        if (IsForwardBlocked())
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 0.2f);
+            blocked = true;
+            blockedCount += 1;
+            if(blockedCount > 10)
+            {
+                return typeof(BeeWanderState);
+            }
+            
+        }
+        //Possibly get object from raycast and calculate movement based on the object and its size.
+        else
+        {
+            transform.Translate(Vector3.forward * Time.deltaTime * BeeEnemySettings.BeeSpeed);
+            if (blocked)
+            {
+                if (!IsLeftBlocked() && !IsRightBlocked())
+                {
+                    blockedCount = 0;
+                    blocked = false;
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime * turnSpeed);
+                }
+            }
+            else
+            {
+                if(IsForwardBlocked() && blocked)
+                {
+                    transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 0.2f);
+                }
+                else
+                {
+                    transform.LookAt(direction);
+                }
+            }
+        }
 
         var Distance = Vector3.Distance(transform.position, bee.Target.transform.position);
-        if(Distance <= BeeEnemySettings.AttackRange)
+        
+        if (Distance <= BeeEnemySettings.AttackRange)
         {
             return typeof(BeeAttackState);
         }
@@ -32,5 +79,23 @@ public class BeeChaseState : BeeBaseState
 
         return null;
 
+    }
+
+    private bool IsForwardBlocked()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        return Physics.SphereCast(ray, 0.5f, rayDistance, layerMask);
+    }
+
+    private bool IsLeftBlocked()
+    {
+        Ray ray = new Ray(transform.position, -transform.right);
+        return Physics.SphereCast(ray, 0.5f, rayDistance, layerMask);
+    }
+
+    private bool IsRightBlocked()
+    {
+        Ray ray = new Ray(transform.position, transform.right);
+        return Physics.SphereCast(ray, 0.5f, rayDistance, layerMask);
     }
 }
