@@ -51,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask Water;
     public bool watered;
     public bool grounded;
+    public bool wallGroundCheck;
 
     [Header("End Check")]
     public bool atEnd = false;
@@ -136,6 +137,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (grounded)
         {
+            wallGroundCheck = true;
             rb.drag = groundDrag;
         }
         else
@@ -344,6 +346,7 @@ public class PlayerMovement : MonoBehaviour
         // on ground
         else if (grounded)
         {
+
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
             stepClimb();
         }
@@ -429,7 +432,7 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hitUpper;
             if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, .7f))
             {
-                rb.position -= new Vector3(0f, -stepSmooth, 0f);
+                rb.position -= new Vector3(0f, stepSmooth, 0f);
             }
 
         }

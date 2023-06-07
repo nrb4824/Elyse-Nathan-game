@@ -91,7 +91,7 @@ public class WallRunning : MonoBehaviour
         //downwardsRunning = Input.GetKey(downwardsRunKey);
 
         // State 1 - Wallrunning
-        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall)  // Pressing w and above ground and touching a wall
+        if((wallLeft || wallRight) && verticalInput > 0 && AboveGround() && !exitingWall && pm.wallGroundCheck)  // Pressing w and above ground and touching a wall
         {
             if (!pm.wallrunning)
             {
@@ -208,6 +208,7 @@ public class WallRunning : MonoBehaviour
     private void StopWallRun()
     {
         pm.wallrunning = false;
+        pm.wallGroundCheck = false;
 
         // reset camera effects
         cam.DoFov(80f);
