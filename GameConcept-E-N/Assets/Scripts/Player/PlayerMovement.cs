@@ -348,7 +348,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            stepClimb();
+            //stepClimb();
         }
 
         // in air
