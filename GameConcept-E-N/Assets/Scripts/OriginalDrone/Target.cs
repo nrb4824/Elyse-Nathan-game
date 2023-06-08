@@ -14,7 +14,7 @@ public class Target : MonoBehaviour
 
     private void Start()
     {
-        health = EnemySettings.Health;
+        health = BeeEnemySettings.Health;
         maxHealth = health;
     }
     private void LateUpdate()
@@ -43,5 +43,10 @@ public class Target : MonoBehaviour
     {
         Destroy(gameObject);
         Destroy(healthBar.gameObject);
+    }
+
+    public void setCamera(Transform cam)
+    {
+        this.cam = cam;
     }
 }

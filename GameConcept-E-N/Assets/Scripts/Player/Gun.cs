@@ -66,8 +66,12 @@ public class Gun : MonoBehaviour
             }
 
             //instantiates and destroys bullet impact effect.
-            GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGameObject, 2f);
+            if(hit.transform.gameObject.layer != LayerMask.NameToLayer("EnemyContainment"))
+            {
+                GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGameObject, 2f);
+            }
+            
             
             
         }

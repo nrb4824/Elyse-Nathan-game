@@ -9,10 +9,11 @@ public class Bee : MonoBehaviour
 {
 
     [SerializeField] private Team team;
-    //[SerializeField] private GameObject laserVisual;
+    private GameObject laserVisual;
     private Animator anim;
     public Transform Target { get; private set; }
     public Player playerObject { get; private set; }
+    private GameObject laser;
 
     public Team GetTeam()
     {
@@ -24,6 +25,7 @@ public class Bee : MonoBehaviour
     private void Awake()
     {
         anim = gameObject.GetComponent<Animator>();
+        laserVisual = BeeEnemySettings.BeeProjectilePrefab;
         InitializeStateMachine();
     }
 
@@ -65,12 +67,16 @@ public class Bee : MonoBehaviour
 
     public void FireWeapon()
     {
-        //laserVisual.transform.position = (Target.position + transform.position) / 2f;
+        laser = Instantiate(laserVisual, this.transform.position, this.transform.rotation) as GameObject;
+        
 
         float distance = Vector3.Distance(Target.position, transform.position);
-        //laserVisual.transform.localScale = new Vector3(.1f, .1f, distance);
-        //laserVisual.SetActive(true);
-        if(playerObject != null)
+        laser.transform.localScale = new Vector3( 0.1f, distance, .1f);
+        var direction = new Vector3(this.Target.position.x, this.Target.position.y, this.Target.position.z);
+        laser.transform.LookAt(direction);
+        laser.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
+
+        if (playerObject != null)
         {
             playerObject.TakeDamage(BeeEnemySettings.Damage);
         }
@@ -81,8 +87,8 @@ public class Bee : MonoBehaviour
 
     private IEnumerator TurnOffLaser()
     {
-        yield return new WaitForSeconds(1.0f);
-        //laserVisual.SetActive(false);
+        yield return new WaitForSeconds(.2f);
+        Destroy(laser);
         
         // deal damage
     }

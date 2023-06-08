@@ -11,3 +11,4 @@ Gun: https://assetstore.unity.com/packages/3d/props/guns/rifle-enfield-base-9500
 SkyMap: https://assetstore.unity.com/packages/2d/textures-materials/sky/free-hdr-sky-61217
 Water:https://assetstore.unity.com/packages/vfx/shaders/water-shaders-v2-x-149916
 DOTween for ease of Camera movement.
+Laser shot: https://assetstore.unity.com/packages/tools/particles-effects/volumetric-lines-29160

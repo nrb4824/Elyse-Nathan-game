@@ -34,7 +34,6 @@ public class BeeChaseState : BeeBaseState
             {
                 transform.Translate(-Vector3.forward * Time.deltaTime * 4* BeeEnemySettings.BeeSpeed);
                 blockedCount = 0;
-                //return typeof(BeeWanderState);
             }
         }
         else
