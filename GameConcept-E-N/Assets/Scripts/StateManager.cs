@@ -21,7 +21,7 @@ public class StateManager : MonoBehaviour
     {
         if(name != null)
         {
-            if (name != "Menu" && name != "Controls")
+            if (name != "Menu" && name != "Controls" && name != "MissionObjective")
             {
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
