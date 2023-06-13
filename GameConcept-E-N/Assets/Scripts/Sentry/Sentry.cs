@@ -14,6 +14,11 @@ public class Sentry : MonoBehaviour
     public Transform Target { get; private set; }
     public Player playerObject { get; private set; }
     private GameObject laser;
+    public Light light;
+
+    public GameObject Bee;
+    public int beeNumber;
+    public Transform playerCam;
 
     public Team GetTeam()
     {
@@ -34,9 +39,8 @@ public class Sentry : MonoBehaviour
         var states = new Dictionary<Type, SentryBaseState>()
         {
             //Add new states here
-            { typeof(SentryWanderState), new SentryWanderState(this)},
-            { typeof(SentryChaseState), new SentryChaseState(this)},
-            { typeof(SentryAttackState), new SentryAttackState(this)}
+            { typeof(SentrySearchState), new SentrySearchState(this)},
+            { typeof(SentrySpawnState), new SentrySpawnState(this)}
         };
 
         GetComponent<SentryEnemyStateMachine>().SetStates(states);
