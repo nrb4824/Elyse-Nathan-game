@@ -9,16 +9,18 @@ public class Sentry : MonoBehaviour
 {
 
     [SerializeField] private Team team;
-    private GameObject laserVisual;
     private Animator anim;
     public Transform Target { get; private set; }
     public Player playerObject { get; private set; }
-    private GameObject laser;
     public Light light;
 
     public GameObject Bee;
     public int beeNumber;
     public Transform playerCam;
+    public float scanAngle;
+    public float xAngle;
+    public float yAngle;
+    public float zAngle;
 
     public Team GetTeam()
     {
@@ -30,7 +32,9 @@ public class Sentry : MonoBehaviour
     private void Awake()
     {
         //anim = gameObject.GetComponent<Animator>();
-        laserVisual = SentryEnemySettings.SentryProjectilePrefab;
+        light.spotAngle = SentryEnemySettings.Angle;
+        light.innerSpotAngle = SentryEnemySettings.Angle;
+        light.range = SentryEnemySettings.AggroRadius;
         InitializeStateMachine();
     }
 
@@ -71,20 +75,8 @@ public class Sentry : MonoBehaviour
 
     public void FireWeapon()
     {
-        laser = Instantiate(laserVisual, this.transform.position, this.transform.rotation) as GameObject;
-        
-
         float distance = Vector3.Distance(Target.position, transform.position);
-        laser.transform.localScale = new Vector3( 0.1f, distance, .1f);
         var direction = new Vector3(this.Target.position.x, this.Target.position.y, this.Target.position.z);
-        laser.transform.LookAt(direction);
-        laser.transform.Rotate(90.0f, 0.0f, 0.0f, Space.Self);
-
-        if (playerObject != null)
-        {
-            playerObject.TakeDamage(SentryEnemySettings.Damage);
-        }
-        //Attack();
 
         StartCoroutine(TurnOffLaser());
     }
@@ -92,7 +84,6 @@ public class Sentry : MonoBehaviour
     private IEnumerator TurnOffLaser()
     {
         yield return new WaitForSeconds(.2f);
-        Destroy(laser);
         
         // deal damage
     }

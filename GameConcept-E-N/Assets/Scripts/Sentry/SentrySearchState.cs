@@ -13,8 +13,12 @@ public class SentrySearchState : SentryBaseState
     private readonly LayerMask layerMask = LayerMask.NameToLayer("Walls");
     private float rayDistance = 3.5f;
     private Quaternion desiredRotation;
+    private Quaternion roundedRotation;
     private Vector3 direction;
+    private bool start = true;
     private Sentry sentry;
+    private bool turned = false;
+    private float tolerance = .05f;
 
     public SentrySearchState(Sentry s) : base(s.gameObject)
     {
@@ -27,13 +31,28 @@ public class SentrySearchState : SentryBaseState
         //sentry.Move();
         if (chaseTarget != null)
         {
+            Debug.Log("found");
             sentry.SetTarget(chaseTarget);
             return typeof(SentrySpawnState);
         }
-
-        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRotation, Time.deltaTime * turnSpeed);
-
-        Debug.DrawRay(transform.position, direction * rayDistance, Color.green);
+        var difference = desiredRotation.y - sentry.transform.rotation.y;
+        if (start)
+        {
+            Debug.Log("Scanning");
+            start = false;
+            Scan();
+        }
+        else if(!turned && difference < tolerance)
+        {
+            Debug.Log("Scanning");
+            Scan();
+        }
+        else if(turned && difference > -tolerance)
+        {
+            Debug.Log("Scanning");
+            Scan();
+        }
+        transform.rotation = Quaternion.Lerp(sentry.transform.rotation, desiredRotation, Time.deltaTime * SentryEnemySettings.RotateSpeed);
         return null;
     }
 
@@ -41,6 +60,20 @@ public class SentrySearchState : SentryBaseState
     {
         Ray ray = new Ray(transform.position, transform.forward);
         return Physics.SphereCast(ray, 0.5f, rayDistance, layerMask);
+    }
+
+    private void Scan()
+    {
+        if (turned)
+        {
+            turned = false;
+            desiredRotation = Quaternion.Euler(new Vector3(sentry.xAngle, sentry.yAngle + sentry.scanAngle/2, sentry.zAngle));
+        }
+        else if (!turned)
+        {
+            turned = true;
+            desiredRotation = Quaternion.Euler(new Vector3(sentry.xAngle, sentry.yAngle - sentry.scanAngle/2, sentry.zAngle));
+        }
     }
 
     private Transform CheckForAggro()
