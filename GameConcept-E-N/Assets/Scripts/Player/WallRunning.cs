@@ -211,7 +211,7 @@ public class WallRunning : MonoBehaviour
         pm.wallGroundCheck = false;
 
         // reset camera effects
-        cam.DoFov(80f);
+        cam.DoFov(60f);
         cam.DoTilt(0f);
     }
 

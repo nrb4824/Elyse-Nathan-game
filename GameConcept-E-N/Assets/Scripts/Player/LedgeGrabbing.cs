@@ -74,7 +74,7 @@ public class LedgeGrabbing : MonoBehaviour
     }
     private void LedgeDetection()
     {
-        Vector3 position = new Vector3(transform.position.x, transform.position.y + 1.0f, transform.position.z);
+        Vector3 position = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
         bool ledgeDetected = Physics.SphereCast(position, ledgeSphereCastRadius, cam.forward, out ledgeHit, ledgeDetectionLength, whatIsLedge);
 
         if(!ledgeDetected)

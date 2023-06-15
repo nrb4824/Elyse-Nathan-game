@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public float crouchSpeed;
     public float crouchYScale;
     private float startYScale;
+    private bool lowCeiling;
+    private bool crouch;
 
     [Header("Stairs")]
     public GameObject stepRayUpper;
@@ -124,6 +126,8 @@ public class PlayerMovement : MonoBehaviour
         atEnd = Physics.Raycast(transform.position, Vector3.forward, 0.6f, EndBlock);
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         watered = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Water);
+        lowCeiling = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, Ground);
+
         MyInput();
         SpeedControl();
         StateHandler();
@@ -166,16 +170,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // start crouch
-        if (Input.GetKeyDown(crouchKey))
+        if (Input.GetKeyDown(crouchKey) && !crouch)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            crouch = true;
         }
 
         // stop crouch
-        if (Input.GetKeyUp(crouchKey))
+        else if (Input.GetKeyDown(crouchKey) && !lowCeiling && crouch)
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            crouch = false;
         }
     }
 

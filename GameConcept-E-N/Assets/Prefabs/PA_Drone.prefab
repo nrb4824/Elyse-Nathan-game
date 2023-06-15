@@ -841,7 +841,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  laserVisual: {fileID: 0}
 --- !u!114 &6308307403904680475
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -869,6 +868,7 @@ MonoBehaviour:
   healthBar: {fileID: 2783372288649300848}
   healthObject: {fileID: 2783372287550229996}
   cam: {fileID: 0}
+  explosionEffect: {fileID: 3030415118151156130, guid: 525f3f18c25d1974b8f0c36ca2ab8f39, type: 3}
 --- !u!65 &6308307403904712166
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -876,7 +876,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6308307403904680478}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c22b77c1d7da6d049b85f3433fbb4ac2, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

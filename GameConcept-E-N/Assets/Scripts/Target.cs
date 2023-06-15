@@ -9,6 +9,7 @@ public class Target : MonoBehaviour
     [SerializeField] private Image healthBar;
     [SerializeField] private GameObject healthObject;
     [SerializeField] private Transform cam;
+    [SerializeField] private GameObject explosionEffect;
 
     private float maxHealth;
 
@@ -41,6 +42,8 @@ public class Target : MonoBehaviour
 
     public void Die()
     {
+        GameObject impactGameObject = Instantiate(explosionEffect, transform.position, transform.rotation);
+        Destroy(impactGameObject, 2f);
         Destroy(gameObject);
         Destroy(healthBar.gameObject);
     }
