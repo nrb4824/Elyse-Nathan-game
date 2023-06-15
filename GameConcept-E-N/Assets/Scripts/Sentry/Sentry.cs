@@ -92,4 +92,8 @@ public class Sentry : MonoBehaviour
         Red,
         Blue
     }
+    public void setCamera(Transform cam)
+    {
+        this.playerCam = cam;
+    }
 }

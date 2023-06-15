@@ -17,8 +17,8 @@ public class SentrySearchState : SentryBaseState
     private Vector3 direction;
     private bool start = true;
     private Sentry sentry;
-    private bool turned = false;
-    private float tolerance = .05f;
+    private bool turned = true;
+    private float tolerance = 6f;
 
     public SentrySearchState(Sentry s) : base(s.gameObject)
     {
@@ -31,27 +31,24 @@ public class SentrySearchState : SentryBaseState
         //sentry.Move();
         if (chaseTarget != null)
         {
-            Debug.Log("found");
             sentry.SetTarget(chaseTarget);
             return typeof(SentrySpawnState);
         }
-        var difference = desiredRotation.y - sentry.transform.rotation.y;
+        var difference = Quaternion.Angle(desiredRotation, sentry.transform.rotation);
         if (start)
         {
-            Debug.Log("Scanning");
             start = false;
             Scan();
         }
         else if(!turned && difference < tolerance)
         {
-            Debug.Log("Scanning");
             Scan();
         }
-        else if(turned && difference > -tolerance)
+        else if(turned && difference < tolerance)
         {
-            Debug.Log("Scanning");
             Scan();
         }
+        
         transform.rotation = Quaternion.Lerp(sentry.transform.rotation, desiredRotation, Time.deltaTime * SentryEnemySettings.RotateSpeed);
         return null;
     }
@@ -69,7 +66,7 @@ public class SentrySearchState : SentryBaseState
             turned = false;
             desiredRotation = Quaternion.Euler(new Vector3(sentry.xAngle, sentry.yAngle + sentry.scanAngle/2, sentry.zAngle));
         }
-        else if (!turned)
+        else
         {
             turned = true;
             desiredRotation = Quaternion.Euler(new Vector3(sentry.xAngle, sentry.yAngle - sentry.scanAngle/2, sentry.zAngle));
