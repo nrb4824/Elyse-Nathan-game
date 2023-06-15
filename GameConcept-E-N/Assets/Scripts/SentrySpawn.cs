@@ -12,6 +12,15 @@ public class SentrySpawn : MonoBehaviour
     private GameObject s2;
     private Quaternion rot2;
 
+    private GameObject s3;
+    private Quaternion rot3;
+
+    private GameObject s4;
+    private Quaternion rot4;
+
+    private GameObject s5;
+    private Quaternion rot5;
+
     [SerializeField]
     private Transform playerCam;
 
@@ -41,6 +50,43 @@ public class SentrySpawn : MonoBehaviour
         Target t2 = s2.GetComponent<Target>();
         t2.setCamera(this.playerCam);
         sentry2.setCamera(this.playerCam);
+
+        Vector3 pos3 = new Vector3(-314.3f, 84.84f, 205.7f);
+        rot3.eulerAngles = new Vector3(84.6f, 49.1f, -123.4f);
+        s3 = Instantiate(Sentry, pos3, rot3) as GameObject;
+        Sentry sentry3 = s3.GetComponent<Sentry>();
+        sentry3.xAngle = 84.6f;
+        sentry3.yAngle = 49.1f;
+        sentry3.zAngle = -123.4f;
+        sentry3.scanAngle = 0.0f;
+        sentry3.beeNumber = 1;
+        Target t3 = s3.GetComponent<Target>();
+        t3.setCamera(this.playerCam);
+        sentry3.setCamera(this.playerCam);
+
+        Vector3 pos4 = new Vector3(-397.5f, 66.9f, 300.8f);
+        rot4.eulerAngles = new Vector3(36.6f, 133.8f, 4.6f);
+        s4 = Instantiate(Sentry, pos4, rot4) as GameObject;
+        Sentry sentry4 = s4.GetComponent<Sentry>();
+        sentry4.xAngle = 36.6f;
+        sentry4.yAngle = 133.8f;
+        sentry4.zAngle = 4.6f;
+        sentry4.scanAngle = 90.0f;
+        Target t4 = s4.GetComponent<Target>();
+        t4.setCamera(this.playerCam);
+        sentry4.setCamera(this.playerCam);
+
+        Vector3 pos5 = new Vector3(-227.9f, 66.9f, 300.8f);
+        rot5.eulerAngles = new Vector3(36.6f, 239.3f, 4.6f);
+        s5 = Instantiate(Sentry, pos5, rot5) as GameObject;
+        Sentry sentry5 = s5.GetComponent<Sentry>();
+        sentry5.xAngle = 36.6f;
+        sentry5.yAngle = 239.3f;
+        sentry5.zAngle = 4.6f;
+        sentry5.scanAngle = 90.0f;
+        Target t5 = s5.GetComponent<Target>();
+        t5.setCamera(this.playerCam);
+        sentry5.setCamera(this.playerCam);
 
 
     }
