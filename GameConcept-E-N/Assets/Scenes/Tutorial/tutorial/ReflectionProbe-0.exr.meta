@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream
 guid: 4d4a4b03274f65f4cbcbcb399fc5ef27
+=======
+guid: c43ca87fd576e20438c64065e64f15f8
+>>>>>>> Stashed changes
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -7,7 +11,11 @@ TextureImporter:
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
+<<<<<<< Updated upstream
+    sRGBTexture: 0
+=======
     sRGBTexture: 1
+>>>>>>> Stashed changes
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
@@ -52,8 +60,18 @@ TextureImporter:
   alphaUsage: 1
   alphaIsTransparency: 0
   spriteTessellationDetail: -1
+<<<<<<< Updated upstream
+<<<<<<<< Updated upstream:GameConcept-E-N/Assets/Scenes/Tutorial/tutorial/ReflectionProbe-0.exr.meta
   textureType: 0
   textureShape: 2
+========
+  textureType: 1
+  textureShape: 1
+>>>>>>>> Stashed changes:GameConcept-E-N/Assets/Vase/DefaultMaterial-Color.png.meta
+=======
+  textureType: 0
+  textureShape: 2
+>>>>>>> Stashed changes
   singleChannelComponent: 0
   flipbookRows: 1
   flipbookColumns: 1
