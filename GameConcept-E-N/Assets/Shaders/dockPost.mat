@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: test
-  m_Shader: {fileID: -6465566751694194690, guid: 0c4311107788adb40b5edb3e60a762b7, type: 3}
+  m_Name: dockPost
+  m_Shader: {fileID: -6465566751694194690, guid: 0d65f40817049cd4d8271dd05f0726eb, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -19,12 +19,16 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_0f10ff714ed849a194566059b91a2371:
-        m_Texture: {fileID: 2800000, guid: 9b00bb3f13cb2c842bed54f7fb073ee7, type: 3}
+    - Texture2D_b1f152d363ad43cd98329cfc15b47526:
+        m_Texture: {fileID: 2800000, guid: 87768714e489bfe438e3e45f4b0bb763, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - Texture2D_a908c2051a344135b369cf2673c4bec6:
+    - Texture2D_b5e4af1d53aa4d4bbb06f6210d7bc3af:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_ea66448ef7db4935afb5c37938b17bbd:
+        m_Texture: {fileID: 2800000, guid: a1ae898c80506e246a01b25bf41f027d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -40,6 +44,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_2998506e0eae44af97a5e65839f220c9: 0
-    m_Colors: []
+    - Vector1_02f624d0f74f4aaf8d193a1a1b8f82ac: 0.4
+    - Vector1_d2a95e4c80ac4b6a9954a5efc307e0cf: 1
+    m_Colors:
+    - Vector2_1d4eaef982b7421492425d072519a192: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_6f6a1a432ef245e7847c93a30a9c7c88: {r: 1, g: 1, b: 0, a: 0}
+    - Vector2_d4954a5c466e428ba19076e76943a6ce: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
