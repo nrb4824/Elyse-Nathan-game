@@ -18,8 +18,8 @@ public class SentrySpawn : MonoBehaviour
     private GameObject s4;
     private Quaternion rot4;
 
-    private GameObject s5;
-    private Quaternion rot5;
+ /*   private GameObject s5;
+    private Quaternion rot5;*/
 
     [SerializeField]
     private Transform playerCam;
@@ -27,6 +27,57 @@ public class SentrySpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vector3 pos1 = new Vector3(-338f, 79.8f, 245f);
+        rot1.eulerAngles = new Vector3(31.2f, 287.1f, 0f);
+        s1 = Instantiate(Sentry, pos1, rot1) as GameObject;
+        Sentry sentry1 = s1.GetComponent<Sentry>();
+        sentry1.xAngle = 31.2f;
+        sentry1.yAngle = 287.1f;
+        sentry1.zAngle = 0f;
+        sentry1.scanAngle = 78;
+        Target t1 = s1.GetComponent<Target>();
+        t1.setCamera(this.playerCam);
+        sentry1.setCamera(this.playerCam);
+
+        Vector3 pos2 = new Vector3(-288f, 79.8f, 245f);
+        rot2.eulerAngles = new Vector3(31.2f, 107f, 0f);
+        s2 = Instantiate(Sentry, pos2, rot2) as GameObject;
+        Sentry sentry2 = s2.GetComponent<Sentry>();
+        sentry2.xAngle = 31.2f;
+        sentry2.yAngle = 107f;
+        sentry2.zAngle = 0f;
+        sentry2.scanAngle = 78f;
+        Target t2 = s2.GetComponent<Target>();
+        t2.setCamera(this.playerCam);
+        sentry2.setCamera(this.playerCam);
+
+        Vector3 pos3 = new Vector3(-338f, 79.8f, 275f);
+        rot3.eulerAngles = new Vector3(31.2f, 287.1f, 0f);
+        s3 = Instantiate(Sentry, pos3, rot3) as GameObject;
+        Sentry sentry3 = s3.GetComponent<Sentry>();
+        sentry3.xAngle = 31.2f;
+        sentry3.yAngle = 287.1f;
+        sentry3.zAngle = 0f;
+        sentry3.scanAngle = 78f;
+        sentry3.beeNumber = 1;
+        Target t3 = s3.GetComponent<Target>();
+        t3.setCamera(this.playerCam);
+        sentry3.setCamera(this.playerCam);
+
+        Vector3 pos4 = new Vector3(-288f, 79.8f, 275f);
+        rot4.eulerAngles = new Vector3(31.2f, 107f, 0f);
+        s4 = Instantiate(Sentry, pos4, rot4) as GameObject;
+        Sentry sentry4 = s4.GetComponent<Sentry>();
+        sentry4.xAngle = 31.2f;
+        sentry4.yAngle = 107f;
+        sentry4.zAngle = 0f;
+        sentry4.scanAngle = 78f;
+        Target t4 = s4.GetComponent<Target>();
+        t4.setCamera(this.playerCam);
+        sentry4.setCamera(this.playerCam);
+
+
+/*
         Vector3 pos1 = new Vector3(-356.4f, 65.5f, 249.3f);
         rot1.eulerAngles = new Vector3(36.6f, 165.5f, 4.6f);
         s1 = Instantiate(Sentry, pos1, rot1) as GameObject;
@@ -74,9 +125,9 @@ public class SentrySpawn : MonoBehaviour
         sentry4.scanAngle = 90.0f;
         Target t4 = s4.GetComponent<Target>();
         t4.setCamera(this.playerCam);
-        sentry4.setCamera(this.playerCam);
+        sentry4.setCamera(this.playerCam);*/
 
-        Vector3 pos5 = new Vector3(-227.9f, 66.9f, 300.8f);
+/*        Vector3 pos5 = new Vector3(-227.9f, 66.9f, 300.8f);
         rot5.eulerAngles = new Vector3(36.6f, 239.3f, 4.6f);
         s5 = Instantiate(Sentry, pos5, rot5) as GameObject;
         Sentry sentry5 = s5.GetComponent<Sentry>();
@@ -86,7 +137,7 @@ public class SentrySpawn : MonoBehaviour
         sentry5.scanAngle = 90.0f;
         Target t5 = s5.GetComponent<Target>();
         t5.setCamera(this.playerCam);
-        sentry5.setCamera(this.playerCam);
+        sentry5.setCamera(this.playerCam);*/
 
 
     }

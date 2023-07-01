@@ -35,6 +35,7 @@ public class Sentry : MonoBehaviour
         light.spotAngle = SentryEnemySettings.Angle;
         light.innerSpotAngle = SentryEnemySettings.Angle;
         light.range = SentryEnemySettings.AggroRadius;
+        light.shadows = LightShadows.Hard;
         InitializeStateMachine();
     }
 
