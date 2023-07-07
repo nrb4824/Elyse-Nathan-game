@@ -24,7 +24,7 @@ public class BeeWanderState : BeeBaseState
     public override Type Tick()
     {
         var chaseTarget = CheckForAggro();
-        bee.Move();
+        //bee.Move();
         if (chaseTarget != null)
         {
             bee.SetTarget(chaseTarget);

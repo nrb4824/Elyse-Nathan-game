@@ -21,7 +21,7 @@ public class BeeChaseState : BeeBaseState
     public override Type Tick()
     {
         if (bee.Target == null) return typeof(BeeWanderState);
-        bee.Move();
+        //bee.Move();
         var direction = new Vector3(bee.Target.position.x, bee.Target.position.y, bee.Target.position.z);
         var desiredRotation = Quaternion.LookRotation(direction);
 

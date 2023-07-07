@@ -10,7 +10,7 @@ public class Bee : MonoBehaviour
 
     [SerializeField] private Team team;
     private GameObject laserVisual;
-    private Animator anim;
+    //private Animator anim;
     public Transform Target { get; private set; }
     public Player playerObject { get; private set; }
     private GameObject laser;
@@ -24,7 +24,7 @@ public class Bee : MonoBehaviour
 
     private void Awake()
     {
-        anim = gameObject.GetComponent<Animator>();
+        //anim = gameObject.GetComponent<Animator>();
         laserVisual = BeeEnemySettings.BeeProjectilePrefab;
         InitializeStateMachine();
     }
@@ -52,7 +52,7 @@ public class Bee : MonoBehaviour
         playerObject = player;
     }
 
-    public void Move()
+    /*public void Move()
     {
         anim.SetBool("Forward", true);
         anim.SetBool("Attack", false);
@@ -62,7 +62,7 @@ public class Bee : MonoBehaviour
     {
         anim.SetBool("Attack", true);
         anim.SetBool("Forward", false);
-    }
+    }*/
 
 
     public void FireWeapon()
@@ -80,7 +80,7 @@ public class Bee : MonoBehaviour
         {
             playerObject.TakeDamage(BeeEnemySettings.Damage);
         }
-        Attack();
+        //Attack();
 
         StartCoroutine(TurnOffLaser());
     }
