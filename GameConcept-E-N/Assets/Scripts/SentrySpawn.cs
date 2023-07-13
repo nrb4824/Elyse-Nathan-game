@@ -38,6 +38,7 @@ public class SentrySpawn : MonoBehaviour
         sentry1.scanAngle = 70;
         Target t1 = s1.GetComponent<Target>();
         t1.setCamera(this.playerCam);
+        sentry1.beeNumber = 1;
         sentry1.setCamera(this.playerCam);
 
         Vector3 pos2 = new Vector3(-288f, 79.8f, 245f);
@@ -50,6 +51,7 @@ public class SentrySpawn : MonoBehaviour
         sentry2.scanAngle = 70f;
         Target t2 = s2.GetComponent<Target>();
         t2.setCamera(this.playerCam);
+        sentry2.beeNumber = 1;
         sentry2.setCamera(this.playerCam);
 
         Vector3 pos3 = new Vector3(-338f, 79.8f, 275f);
@@ -62,6 +64,7 @@ public class SentrySpawn : MonoBehaviour
         sentry3.scanAngle = 70f;
         Target t3 = s3.GetComponent<Target>();
         t3.setCamera(this.playerCam);
+        sentry3.beeNumber = 1;
         sentry3.setCamera(this.playerCam);
 
         Vector3 pos4 = new Vector3(-288f, 79.8f, 275f);
@@ -74,6 +77,7 @@ public class SentrySpawn : MonoBehaviour
         sentry4.scanAngle = 70f;
         Target t4 = s4.GetComponent<Target>();
         t4.setCamera(this.playerCam);
+        sentry4.beeNumber = 1;
         sentry4.setCamera(this.playerCam);
 
 

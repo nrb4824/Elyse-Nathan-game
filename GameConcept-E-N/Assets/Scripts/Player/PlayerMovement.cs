@@ -56,8 +56,10 @@ public class PlayerMovement : MonoBehaviour
     public bool wallGroundCheck;
 
     [Header("End Check")]
+    /*public bool atEnd = false;
+    public LayerMask EndBlock;*/
     public bool atEnd = false;
-    public LayerMask EndBlock;
+    public KeyCode EndKey = KeyCode.E;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -88,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
         climbing,
         crouching,
         sliding,
-        air
+        air,
     }
 
     public bool sliding;
@@ -101,7 +103,14 @@ public class PlayerMovement : MonoBehaviour
 
     public bool restricted;
 
+    public bool standing;
+
+
     bool keepMomentum;
+
+    bool soundWalking;
+    bool soundRunning;
+    bool soundJump;
 
     private void Awake()
     {
@@ -123,7 +132,6 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // ground check
-        atEnd = Physics.Raycast(transform.position, Vector3.forward, 0.6f, EndBlock);
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         watered = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Water);
         lowCeiling = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, Ground);
@@ -148,6 +156,32 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.drag = 0;
         }
+
+        if (state == MovementState.walking && !soundWalking && !standing)
+        {
+            soundWalking = true;
+            FindObjectOfType<AudioManager>().Play("Walking");
+        }
+        else if((state != MovementState.walking || standing) && soundWalking)
+        {
+            soundWalking = false;
+            FindObjectOfType<AudioManager>().Stop("Walking");
+        }
+        else if (!soundRunning && state == MovementState.sprinting)
+        {
+            soundRunning = true;
+            FindObjectOfType<AudioManager>().Play("Running");
+        }
+        else if(state != MovementState.sprinting && soundRunning)
+        {
+            soundRunning = false;
+            FindObjectOfType<AudioManager>().Stop("Running");
+        }
+        else if(state != MovementState.air && soundJump)
+            {
+            soundJump = false;
+            FindObjectOfType<AudioManager>().Play("Jump Land");
+        }
     }
 
     private void FixedUpdate()
@@ -160,6 +194,9 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (horizontalInput != 0f || verticalInput != 0f) standing = false;
+        else standing = true;
 
         // when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
@@ -187,16 +224,15 @@ public class PlayerMovement : MonoBehaviour
 
     private void StateHandler()
     {   // at the end of the game
-        if(atEnd)
+        if(atEnd && Input.GetKey(EndKey))
         {
+            
             LevelManager.instance.atEnd = true;
-            if(LevelManager.instance.destroyed)
-            {
-                LevelManager.instance.GameWon();
-                gameObject.SetActive(false);
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+            LevelManager.instance.GameWon();
+            gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            
             
         }
         // Mode - Freeze
@@ -263,6 +299,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
+
         }
 
         //Mode - Air
@@ -333,6 +370,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        
         if (climbingScript.exitingWall || restricted) return;
 
         //calculate movement direction
@@ -399,18 +437,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        FindObjectOfType<AudioManager>().Play("Jump Start");
         exitingSlope = true;
 
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
     }
 
     private void ResetJump()
     {
+        soundJump = true;
         readyToJump = true;
-
         exitingSlope = false;
     }
 
@@ -463,4 +503,24 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "End")
+        {
+            TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+            o.message.SetActive(true);
+            o.active = true;
+            atEnd = true;
+        }
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+        o.message.SetActive(false);
+        o.active = false;
+        atEnd = false;
+    }
 }
+
+

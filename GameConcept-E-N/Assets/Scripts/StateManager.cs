@@ -1,15 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 public class StateManager : MonoBehaviour
 {
     public void Awake()
     {
-        if(SceneManager.GetActiveScene().name == "lv1")
-        {
-
-        }
     }
     public void ReloadCurrentScene()
     {
@@ -29,6 +27,16 @@ public class StateManager : MonoBehaviour
             }
             SceneManager.LoadScene(name);
 
+
+            if (name == "Tutorial")
+            {
+                
+                AudioManager a = FindObjectOfType<AudioManager>();
+                Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
+                s.playing = false;
+                a.PlayBirds();
+                a.Stop("Menu Screen");
+            }
             
         }
         

@@ -7,7 +7,7 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public static LevelManager instance;
-    public bool destroyed;
+    //public bool destroyed;
     public bool atEnd;
     public GameObject endBlock;
     public Material canEnter;
@@ -15,9 +15,17 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         atEnd = false;
-        destroyed = false;
+        //destroyed = false;
         if (LevelManager.instance == null) instance = this;
         else Destroy(gameObject);
+        AudioManager a = FindObjectOfType<AudioManager>();
+        Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
+        if (!s.playing)
+        {
+            a.Play("Menu Screen");
+            s.playing = true;
+        }
+        
     }
 
     public void GameOver()
@@ -32,7 +40,8 @@ public class LevelManager : MonoBehaviour
     public void GameWon()
     {
         UIManager ui = GetComponent<UIManager>();
-        if(ui != null && destroyed && atEnd)
+        //if(ui != null && destroyed && atEnd)
+        if (ui != null && atEnd)
         {
             Console.WriteLine("if statement");
             ui.ToggleWinPanel();
