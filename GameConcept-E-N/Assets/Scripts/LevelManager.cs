@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 //using TMPro.EditorUtilities;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -18,14 +19,17 @@ public class LevelManager : MonoBehaviour
         //destroyed = false;
         if (LevelManager.instance == null) instance = this;
         else Destroy(gameObject);
+        
+    }
+    private void Start()
+    {
         AudioManager a = FindObjectOfType<AudioManager>();
         Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
-        if (!s.playing)
+        if (!s.playing && SceneManager.GetActiveScene().name != "Tutorial")
         {
             a.Play("Menu Screen");
             s.playing = true;
         }
-        
     }
 
     public void GameOver()

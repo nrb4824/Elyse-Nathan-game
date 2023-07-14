@@ -53,9 +53,9 @@ public class AudioManager : MonoBehaviour
         var index = UnityEngine.Random.Range(0, 44);
         var index2 = UnityEngine.Random.Range(0, 44);
         var index3 = UnityEngine.Random.Range(0, 44);
-        var wait = UnityEngine.Random.Range(0, .7f);
-        var wait2 = UnityEngine.Random.Range(0, .7f);
-        var wait3 = UnityEngine.Random.Range(0, .7f);
+        var wait = UnityEngine.Random.Range(0, 1.0f);
+        var wait2 = UnityEngine.Random.Range(0, 1.0f);
+        var wait3 = UnityEngine.Random.Range(0, 1.0f);
         Sound b = birdSounds[index];
         Sound b2 = birdSounds[index2];
         Sound b3 = birdSounds[index3];
