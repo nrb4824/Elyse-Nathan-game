@@ -67,6 +67,10 @@ public class AudioManager : MonoBehaviour
         yield return new WaitForSeconds(wait3);
         PlayBirds();
     }
+    public void StopBirds()
+    {
+        StopCoroutine(Birds());
+    }
 
     //Finds the name of the sound in the array and plays it
     //If the sound isn't in the array throws a warning.

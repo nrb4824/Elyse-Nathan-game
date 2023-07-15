@@ -24,6 +24,9 @@ public class StateManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Time.timeScale = 1f;
+                AudioManager a = FindObjectOfType<AudioManager>();
+                a.StopBirds();
+
             }
             SceneManager.LoadScene(name);
 
