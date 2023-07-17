@@ -51,4 +51,10 @@ public class LevelManager : MonoBehaviour
             ui.ToggleWinPanel();
         }
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("Quit");
+    }
 }
