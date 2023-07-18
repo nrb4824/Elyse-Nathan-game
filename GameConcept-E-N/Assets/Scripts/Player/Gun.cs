@@ -28,6 +28,7 @@ public class Gun : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.Mouse0) && Time.time >= nextTimeToFire && PauseMenu.GameIsPaused == false)
         {
+            UnityEngine.Debug.Log("working");
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
         }

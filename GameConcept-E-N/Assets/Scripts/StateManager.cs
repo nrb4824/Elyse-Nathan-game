@@ -19,9 +19,9 @@ public class StateManager : MonoBehaviour
     {
         if(name != null)
         {
+            PauseMenu.GameIsPaused = false;
             if (name == "Tutorial")
             {
-                UnityEngine.Debug.Log("help");
                 AudioManager a = FindObjectOfType<AudioManager>();
                 Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
                 s.playing = false;
