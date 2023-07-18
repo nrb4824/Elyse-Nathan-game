@@ -26,7 +26,7 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("Fire1") && Time.time >= nextTimeToFire && PauseMenu.GameIsPaused == false)
+        if(Input.GetKey(KeyCode.Mouse0) && Time.time >= nextTimeToFire && PauseMenu.GameIsPaused == false)
         {
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();

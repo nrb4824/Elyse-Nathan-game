@@ -19,27 +19,31 @@ public class StateManager : MonoBehaviour
     {
         if(name != null)
         {
-            if (name != "Menu" && name != "Controls" && name != "MissionObjective")
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-                Time.timeScale = 1f;
-                AudioManager a = FindObjectOfType<AudioManager>();
-                a.StopBirds();
-
-            }
-            SceneManager.LoadScene(name);
-
-
             if (name == "Tutorial")
             {
-                
+                UnityEngine.Debug.Log("help");
                 AudioManager a = FindObjectOfType<AudioManager>();
                 Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
                 s.playing = false;
                 a.PlayBirds();
                 a.Stop("Menu Screen");
             }
+
+            if (name != "Menu" && name != "Controls" && name != "MissionObjective")
+            {
+                SceneManager.LoadScene(name);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                Time.timeScale = 1f;
+
+            }
+            else
+            {
+                SceneManager.LoadScene(name);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+            
             
         }
         
