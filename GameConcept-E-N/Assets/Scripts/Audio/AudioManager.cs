@@ -5,10 +5,14 @@ using System.Collections;
 
 public class AudioManager : MonoBehaviour
 {
-    public Sound[] sounds;
-    public bool birds;
-    public Sound[] birdSounds;
-    public float birdVolume;
+    public AudioSource[] audioSources;
+
+    public AudioSource[] gullSounds;
+
+    [SerializeField] AudioMixer mixer;
+
+    public const string MUSIC_KEY = "musicVolume";
+    public const string SFX_KEY = "sfxVolume";
 
     public static AudioManager instance;
 
@@ -17,82 +21,73 @@ public class AudioManager : MonoBehaviour
         if(instance == null)
         {
             instance = this;
+            
         }
         else
         {
             Destroy(gameObject);
             return;
         }
-
         DontDestroyOnLoad(gameObject);
 
-        foreach(Sound s in sounds)
-        {
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-        }
+        LoadVolume();
+    }
 
-        foreach (Sound b in birdSounds)
-        {
-            b.source = gameObject.AddComponent<AudioSource>();
-            b.source.clip = b.clip;
-            b.source.volume = birdVolume;
-            b.source.pitch = b.pitch;
-            b.source.loop = b.loop;
-        }
-    }
-    public void PlayBirds()
+    private void LoadVolume() // Volume saved in VolumeSettings.cs
     {
-        StartCoroutine(Birds());
+        float musicVolume = PlayerPrefs.GetFloat(MUSIC_KEY, 1f);
+        float sfxVolume = PlayerPrefs.GetFloat(SFX_KEY, 1f);
+
+        mixer.SetFloat(VolumeSettings.MIXER_MUSIC, Mathf.Log10(musicVolume * 20));
+        mixer.SetFloat(VolumeSettings.MIXER_SFX, Mathf.Log10(sfxVolume * 20));
     }
-    private IEnumerator Birds()
+
+    public void PlayGullSounds()
     {
-        var index = UnityEngine.Random.Range(0, 44);
-        var index2 = UnityEngine.Random.Range(0, 44);
-        var index3 = UnityEngine.Random.Range(0, 44);
-        var wait = UnityEngine.Random.Range(0, 2.0f);
-        var wait2 = UnityEngine.Random.Range(0, 2.0f);
-        var wait3 = UnityEngine.Random.Range(0, 2.0f);
-        Sound b = birdSounds[index];
-        Sound b2 = birdSounds[index2];
-        Sound b3 = birdSounds[index3];
-        b.source.Play();
-        yield return new WaitForSeconds(wait);
-        b2.source.Play();
-        yield return new WaitForSeconds(wait2);
-        b3.source.Play();
-        yield return new WaitForSeconds(wait3);
-        PlayBirds();
+        StartCoroutine(PlayGullCoRoutine());
     }
-    public void StopBirds()
+
+    IEnumerator PlayGullCoRoutine()
     {
-        StopCoroutine(Birds());
+        var waitTime = UnityEngine.Random.Range(8.0f, 20.0f);
+        var birdCount = UnityEngine.Random.Range(0, 8);
+        gullSounds[birdCount].Play();
+        yield return new WaitForSeconds(waitTime);
+        PlayGullSounds();
     }
+
+    public void StopGullSounds()
+    {
+        StopCoroutine(PlayGullCoRoutine());
+    }
+
 
     //Finds the name of the sound in the array and plays it
     //If the sound isn't in the array throws a warning.
     public void Play(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        
+        AudioSource s = Array.Find(audioSources, audioSources => audioSources.name == name);
+        if (name=="Walking")
+        {
+            s.loop = true;
+        }
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.Play();
+        s.Play();
     }
 
     public void Stop(string name)
     {
-        Sound s = Array.Find(sounds, sound => sound.name == name);
+        AudioSource s = Array.Find(audioSources, audioSources => audioSources.name == name);
         if (s == null)
         {
             Debug.LogWarning("Sound: " + name + " not found!");
             return;
         }
-        s.source.Stop();
+        s.Stop();
     }
 }

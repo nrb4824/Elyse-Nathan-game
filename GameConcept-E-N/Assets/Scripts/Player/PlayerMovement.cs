@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
         else if(state != MovementState.air && soundJump)
             {
             soundJump = false;
-            FindObjectOfType<AudioManager>().Play("Jump Land");
+            FindObjectOfType<AudioManager>().Play("JumpingDown");
         }
     }
 
@@ -437,7 +437,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
-        FindObjectOfType<AudioManager>().Play("Jump Start");
+        FindObjectOfType<AudioManager>().Play("JumpingUp");
         exitingSlope = true;
 
         // reset y velocity

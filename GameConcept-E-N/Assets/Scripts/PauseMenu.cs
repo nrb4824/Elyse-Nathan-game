@@ -56,6 +56,16 @@ public class PauseMenu : MonoBehaviour
         UnityEngine.Cursor.lockState = CursorLockMode.None;
         UnityEngine.Cursor.visible = true;
     }
+    public void Back()
+    {
+        controlsActive = false;
+        settingsActive = false;
+        HideControls();
+        HideSettings();
+
+        PauseMenuUI.SetActive(false);
+    }
+        
 
     public void Restart()
     {

@@ -24,11 +24,10 @@ public class LevelManager : MonoBehaviour
     private void Start()
     {
         AudioManager a = FindObjectOfType<AudioManager>();
-        Sound s = Array.Find(a.sounds, sound => sound.name == "Menu Screen");
-        if (!s.playing && SceneManager.GetActiveScene().name != "Tutorial")
+        AudioSource s = Array.Find(a.audioSources, audioSources => audioSources.name == "MenuMusic");
+        if (SceneManager.GetActiveScene().name != "Tutorial")
         {
-            a.Play("Menu Screen");
-            s.playing = true;
+            a.Play("MenuMusic");
         }
     }
 
