@@ -6,7 +6,7 @@ using TMPro;
 using System.Collections;
 using System.Collections.Generic;
 
-public class VolumeSettings : MonoBehaviour
+public class Settings : MonoBehaviour
 {
     [SerializeField] AudioMixer mixer;
     [SerializeField] Slider musicSlider;
@@ -17,6 +17,8 @@ public class VolumeSettings : MonoBehaviour
 
     public const string MIXER_MUSIC = "MusicVolume";
     public const string MIXER_SFX = "SFXVolume";
+
+    
 
     private void Awake()
     {
