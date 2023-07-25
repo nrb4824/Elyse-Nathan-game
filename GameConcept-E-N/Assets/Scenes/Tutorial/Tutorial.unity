@@ -414,7 +414,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 23755247}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1527781784}
@@ -2583,7 +2583,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d3dd2138cf8107345a3971ab2b23f502, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d3dd2138cf8107345a3971ab2b23f502, type: 3}
       propertyPath: m_LocalPosition.x
@@ -17743,7 +17743,7 @@ Transform:
   - {fileID: 207068435}
   - {fileID: 202583806}
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: -2.966, z: 0}
 --- !u!1 &472427572
 GameObject:
@@ -30207,7 +30207,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &525466070
 GameObject:
@@ -31109,7 +31109,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 14.3, y: 0, z: 0}
 --- !u!1 &579370540
 GameObject:
@@ -31851,7 +31851,7 @@ RectTransform:
   - {fileID: 1993560538}
   - {fileID: 848521334}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -35394,7 +35394,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &782607578
 GameObject:
@@ -36639,7 +36639,7 @@ Transform:
   m_LocalScale: {x: 7.7732, y: 7.7732, z: 7.7732}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: -737.2, z: 0}
 --- !u!1 &871989851
 GameObject:
@@ -40243,7 +40243,7 @@ Transform:
   m_LocalScale: {x: 1000, y: 20, z: 1000}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1083044911
 GameObject:
@@ -66828,6 +66828,7 @@ GameObject:
   - component: {fileID: 1527781784}
   - component: {fileID: 1527781790}
   - component: {fileID: 1527781789}
+  - component: {fileID: 1527781792}
   - component: {fileID: 1527781788}
   - component: {fileID: 1527781787}
   - component: {fileID: 1527781786}
@@ -66959,9 +66960,11 @@ MonoBehaviour:
   slideSpeed: 50
   wallrunSpeed: 8.5
   climbSpeed: 10
+  ceilingClimbSpeed: 8
   speedIncreaseMultiplier: 20
   slopeIncreaseMultiplier: 1
   groundDrag: 7
+  ceilingDrag: 10
   jumpForce: 12
   jumpCooldown: 0.25
   airMultiplier: 0.4
@@ -66996,6 +66999,7 @@ MonoBehaviour:
   crouching: 0
   wallrunning: 0
   climbing: 0
+  ceilingClimb: 0
   freeze: 0
   unlimited: 0
   restricted: 0
@@ -67059,6 +67063,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 1527781790}
+--- !u!114 &1527781792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1527781783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b860cec21366ed4f9698fb43beb2da6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  orientation: {fileID: 1975749040}
+  rb: {fileID: 1527781790}
+  pm: {fileID: 1527781788}
+  lg: {fileID: 1527781787}
+  ceilingClimb:
+    serializedVersion: 2
+    m_Bits: 128
+  useGravity: 1
+  gravityCounterForce: 5
+  dismountKey: 306
+  detectionLength: 0.7
+  sphereCastRadius: 0.5
+  exitingCeiling: 0
+  exitCeilingTime: 0.2
 --- !u!1 &1527807860
 GameObject:
   m_ObjectHideFlags: 0
@@ -68545,7 +68575,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575115551}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -312.71, y: 60.98, z: 258.9}
+  m_LocalPosition: {x: -312.71, y: 32.84, z: 94.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1662706805}
@@ -70479,7 +70509,7 @@ Transform:
   - {fileID: 1489327742}
   - {fileID: 1698756766}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1662706804
 GameObject:
@@ -72352,7 +72382,7 @@ Transform:
   - {fileID: 2086929607}
   - {fileID: 788093985}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1756336636
 GameObject:
@@ -74439,7 +74469,7 @@ Transform:
   - {fileID: 1445220313}
   - {fileID: 8154640618962265048}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1861406776
 GameObject:
@@ -78453,7 +78483,7 @@ Transform:
   - {fileID: 368734401}
   - {fileID: 218202699}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2036614612
 GameObject:
@@ -90245,7 +90275,7 @@ Transform:
   - {fileID: 6323657362534068287}
   - {fileID: 1679702885674211658}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 200, z: 0}
 --- !u!33 &1099486267931093163
 MeshFilter:
@@ -90461,7 +90491,7 @@ Transform:
   - {fileID: 1666108106}
   - {fileID: 1565358322}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &1142343240918504959
 MeshFilter:
@@ -110320,7 +110350,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5854412485827526927, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 5854412485827526927, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,31 +9,23 @@ public class CeilingClimb : MonoBehaviour
     public Rigidbody rb;
     public PlayerMovement pm;
     public LedgeGrabbing lg;
-    public LayerMask Climb;
+    public LayerMask ceilingClimb;
 
     [Header("CeilingClimb")]
-    public float climbSpeed;
-
     private bool climbing;
 
-    [Header("ClimbJumping")]
-    /*public float climbJumpUpForce;
-    public float climbJumpBackForce;*/
+    [Header("Gravity")]
+    public bool useGravity;
+    public float gravityCounterForce;
 
+    [Header("ClimbJumping")]
     public KeyCode dismountKey = KeyCode.LeftControl;
-    /*public int climbJumps;
-    private int climbJumpsLeft;*/
 
     [Header("Detection")]
     public float detectionLength;
     public float sphereCastRadius;
-
-    private RaycastHit CeilingHit;
+    private RaycastHit ceilingHit;
     private bool ceiling;
-
-    private Transform lastceiling;
-    private Vector3 lastCeilingNormal;
-    public float minCeilingNormalAngleChange;
 
     [Header("Exiting")]
     public bool exitingCeiling;
@@ -49,8 +41,9 @@ public class CeilingClimb : MonoBehaviour
         CeilingCheck();
         StateMachine();
 
-        if (climbing && !exitingWall) ClimbingMovement();
+        if (climbing && !exitingCeiling) ClimbingMovement();
     }
+
 
     private void StateMachine()
     {
@@ -60,7 +53,7 @@ public class CeilingClimb : MonoBehaviour
             if (climbing) StopClimbing();
         }
         // State 1 -Climbing
-        else if (ceiling && Input.GetKey(KeyCode.W) && !exitingCeiling)
+        else if (ceiling && !exitingCeiling)
         {
             if (!climbing) StartClimbing();
 
@@ -81,62 +74,59 @@ public class CeilingClimb : MonoBehaviour
             if (climbing) StopClimbing();
         }
 
-        if (Ceiling && Input.GetKeyDown(dismountKey)) ClimbJump();
+        if (ceiling && Input.GetKeyDown(dismountKey)) ClimbDismount();
     }
 
     private void CeilingCheck()
     {
         ceiling = Physics.SphereCast(transform.position, sphereCastRadius, orientation.up, out ceilingHit, detectionLength, ceilingClimb);
-        //wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal);
-
-        //bool newWall = frontWallHit.transform != lastWall || Mathf.Abs(Vector3.Angle(lastWallNormal, frontWallHit.normal)) > minWallNormalAngleChange;
-
-        /*if ((wallFront && newWall) || pm.grounded)
-        {
-            climbJumpsLeft = climbJumps;
-        }*/
     }
 
     private void StartClimbing()
     {
         climbing = true;
-        pm.climbing = true;
-
-        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY;
-        rb.freezeRotation = true;
-
-        //lastWall = frontWallHit.transform;
-        lastCeilingNormal = CeilingHit.normal;
+        pm.ceilingClimb = true;
     }
 
     private void ClimbingMovement()
     {
-        rb.velocity = new Vector3(climbSpeed, rb.velocity.y, rb.velocity.z);
-        rb.freezeRotation = true;
+        Vector3 ceilingNormal = ceilingHit.normal;
+
+        Vector3 ceilingForward = Vector3.Cross(ceilingNormal, transform.up);
+        Vector3 ceilingRight = Vector3.Cross(ceilingNormal, ceilingHit.transform.forward);
+
+        if ((orientation.forward - ceilingForward).magnitude > (orientation.forward - -ceilingForward).magnitude)
+        {
+            ceilingForward = -ceilingForward;
+        }
+
+        // weaken gravity
+        if (useGravity)
+        {
+            if ((orientation.forward - ceilingForward).magnitude < (orientation.forward - -ceilingForward).magnitude)
+            {
+                ceiling = false;
+            }
+            else
+            {
+                rb.AddForce(transform.up * gravityCounterForce, ForceMode.Force);
+            }
+        }
     }
 
     private void StopClimbing()
     {
         climbing = false;
-        pm.climbing = false;
-        rb.constraints &= ~RigidbodyConstraints.FreezePositionX & ~RigidbodyConstraints.FreezePositionY;
-        rb.freezeRotation = true;
+        pm.ceilingClimb = false;
     }
 
-    private void ClimbJump()
+    private void ClimbDismount()
     {
         if (pm.grounded) return;
         if (lg.holding || lg.exitingLedge) return;
 
         exitingCeiling = true;
         exitCeilingTimer = exitCeilingTime;
-        Vector3 forceToApply = transform.forward + frontWallHit.normal;
-
-        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-        rb.AddForce(forceToApply, ForceMode.Impulse);
-
-        //climbJumpsLeft--;
+        Vector3 forceToApply = transform.forward;
     }
-
-
 }

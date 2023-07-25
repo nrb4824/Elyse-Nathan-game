@@ -15,11 +15,13 @@ public class PlayerMovement : MonoBehaviour
     public float slideSpeed;
     public float wallrunSpeed;
     public float climbSpeed;
+    public float ceilingClimbSpeed;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
 
     public float groundDrag;
+    public float ceilingDrag;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -88,6 +90,7 @@ public class PlayerMovement : MonoBehaviour
         sprinting,
         wallRunning,
         climbing,
+        ceilingClimb,
         crouching,
         sliding,
         air,
@@ -97,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     public bool crouching;
     public bool wallrunning;
     public bool climbing;
+    public bool ceilingClimb;
 
     public bool freeze;
     public bool unlimited;
@@ -151,6 +155,10 @@ public class PlayerMovement : MonoBehaviour
         {
             wallGroundCheck = true;
             rb.drag = groundDrag;
+        }
+        else if(ceilingClimb)
+        {
+            rb.drag = ceilingDrag;
         }
         else
         {
@@ -248,6 +256,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
+        }
+
+        //Mode - ceilingClimb
+        else if(ceilingClimb)
+        {
+            state = MovementState.ceilingClimb;
+            desiredMoveSpeed = ceilingClimbSpeed;
         }
 
         // Mode - Climbing
