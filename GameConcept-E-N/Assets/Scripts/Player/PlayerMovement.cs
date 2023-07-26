@@ -175,7 +175,7 @@ public class PlayerMovement : MonoBehaviour
             soundWalking = false;
             FindObjectOfType<AudioManager>().Stop("Walking");
         }
-        else if (!soundRunning && state == MovementState.sprinting)
+        else if (!soundRunning && state == MovementState.sprinting && !standing)
         {
             soundRunning = true;
             FindObjectOfType<AudioManager>().Play("Running");
