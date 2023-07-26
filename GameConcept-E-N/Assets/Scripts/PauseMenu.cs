@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using UnityEngine.UIElements;
 using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
@@ -23,7 +22,11 @@ public class PauseMenu : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(GameIsPaused)
+            if(SceneManager.GetActiveScene().name != "Tutorial")
+            {
+                Back();
+            }
+            else if(GameIsPaused)
             {
                 Resume();
             }
