@@ -1692,6 +1692,18 @@ PrefabInstance:
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outWeight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 437086784580411205, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5611913629878957009, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5611913631451094557, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 5854412485827526925, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: m_Name
       value: AudioManager
@@ -1739,6 +1751,10 @@ PrefabInstance:
     - target: {fileID: 5854412485827526927, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6406680362211942834, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
