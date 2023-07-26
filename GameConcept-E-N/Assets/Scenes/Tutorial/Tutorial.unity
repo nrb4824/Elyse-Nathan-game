@@ -4327,7 +4327,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -11478,7 +11478,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -59975,7 +59975,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -80911,7 +80911,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.1
+      scalar: 0.03
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -110851,6 +110851,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1737782312, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 437086784580411205, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: rolloffMode
       value: 2
@@ -110926,6 +110930,10 @@ PrefabInstance:
     - target: {fileID: 2081322303467474672, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: rolloffCustomCurve.m_Curve.Array.data[1].outWeight
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3309677052368514823, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
+      propertyPath: m_Volume
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5102801167367891834, guid: 2e9c116d7884c504e88cf45982a4d257, type: 3}
       propertyPath: rolloffMode
