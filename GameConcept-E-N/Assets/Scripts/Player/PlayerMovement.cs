@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallrunSpeed;
     public float climbSpeed;
     public float ceilingClimbSpeed;
+    public float rockClimbSpeed;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
@@ -91,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
         wallRunning,
         climbing,
         ceilingClimb,
+        rockClimb,
         crouching,
         sliding,
         air,
@@ -101,6 +103,7 @@ public class PlayerMovement : MonoBehaviour
     public bool wallrunning;
     public bool climbing;
     public bool ceilingClimb;
+    public bool rockClimb;
 
     public bool freeze;
     public bool unlimited;
@@ -256,6 +259,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
+        }
+
+        //Mode - rockClimb
+        else if(rockClimb)
+        {
+            state = MovementState.rockClimb;
+            desiredMoveSpeed = rockClimbSpeed;
         }
 
         //Mode - ceilingClimb
