@@ -30,8 +30,11 @@ public class Tutorial : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
-        o.message.SetActive(false);
-        o.active = false;
+        if (other.gameObject.tag == "TutorialArea")
+        {
+            TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+            o.message.SetActive(false);
+            o.active = false;
+        }
     }
 }

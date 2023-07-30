@@ -541,10 +541,13 @@ public class PlayerMovement : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
-        TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
-        o.message.SetActive(false);
-        o.active = false;
-        atEnd = false;
+        if (other.gameObject.tag == "End")
+        {
+            TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+            o.message.SetActive(false);
+            o.active = false;
+            atEnd = false;
+        }
     }
 }
 
