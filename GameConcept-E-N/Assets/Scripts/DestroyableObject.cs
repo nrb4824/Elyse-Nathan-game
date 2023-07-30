@@ -8,10 +8,10 @@ public class DestroyableObject : MonoBehaviour
 
     public void Die(RaycastHit hit)
     {
-        GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+        /*GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
         Destroy(impactGameObject, 2f);
         //LevelManager.instance.destroyed = true;
         LevelManager.instance.endBlock.GetComponent<Renderer>().material = LevelManager.instance.canEnter;
-        Destroy(gameObject);
+        Destroy(gameObject);*/
     }
 }

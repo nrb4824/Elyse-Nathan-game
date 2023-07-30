@@ -10,8 +10,7 @@ public class LevelManager : MonoBehaviour
     public static LevelManager instance;
     //public bool destroyed;
     public bool atEnd;
-    public GameObject endBlock;
-    public Material canEnter;
+
 
     private void Awake()
     {

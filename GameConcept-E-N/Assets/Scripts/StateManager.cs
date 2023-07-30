@@ -6,8 +6,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class StateManager : MonoBehaviour
 {
-    public void Awake()
+    public static StateManager instance;
+    void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+        DontDestroyOnLoad(gameObject);
     }
     public void ReloadCurrentScene()
     {
