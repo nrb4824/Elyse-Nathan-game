@@ -8,8 +8,6 @@ TagManager:
   - End
   - CheckPoint
   - LevelManager
-  - DeathPanel
-  - WinPanel
   layers:
   - Default
   - TransparentFX
