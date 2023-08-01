@@ -5,11 +5,10 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    /*private RespawnScript respawn;
-    private BoxCollider checkPointCollider;*/
     public GameObject player;
     private CheckPointManager cpm;
-    [SerializeField] List<GameObject> checkPoints;
+    public List<GameObject> checkPoints;
+    [SerializeField] GameObject flag;
 
 
     private void Awake()
@@ -18,27 +17,24 @@ public class Checkpoint : MonoBehaviour
         {
             cpm = GameObject.FindGameObjectWithTag("LevelManager").GetComponent<CheckPointManager>();
         }
-
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.CompareTag("CheckPoint"))
         {
             cpm.vectorPoint = other.transform.position;
             other.GetComponent<Collider>().enabled = false;
-            cpm.checkPointIndex = other.GetComponent<CheckPointObject>().index;
-            /*Destroy(other.gameObject);*/
+            cpm.checkPointIndex = other.GetComponent<CheckPointObject>().index -1;
+            flag.SetActive(true);
+            StartCoroutine(Flag());
         }
         
+    }
+
+    IEnumerator Flag()
+    {
+        yield return new WaitForSeconds(5.0f);
+        flag.SetActive(false);
     }
 }

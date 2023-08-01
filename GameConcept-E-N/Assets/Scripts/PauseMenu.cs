@@ -11,11 +11,20 @@ public class PauseMenu : MonoBehaviour
     public GameObject PauseMenuUI;
     public GameObject Controls;
     public GameObject Settings;
+    public GameObject restartPanel;
     public bool controlsActive = false;
     public bool settingsActive = false;
+    public bool restartActive = false;
     public GameObject settingsButton;
     public GameObject controlsButton;
+    public GameObject restartButton;
+    private GameObject levelManager;
+    
 
+    void Awake()
+    {
+        levelManager = GameObject.Find("LevelManager");
+    }
 
     // Update is called once per frame
     void Update()
@@ -39,10 +48,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
-        controlsActive = false;
-        settingsActive = false;
         HideControls();
         HideSettings();
+        HideRestart();
 
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1f;
@@ -69,17 +77,40 @@ public class PauseMenu : MonoBehaviour
         PauseMenuUI.SetActive(false);
     }
         
+    public void ShowRestart()
+    {
+        restartPanel.SetActive(true);
+        restartActive = true;
+        if (settingsActive) HideSettings();
+        if (controlsActive) HideControls();
+        restartButton.SetActive(true);
+    }
 
-    public void Restart()
+    public void HideRestart()
+    {
+        restartPanel.SetActive(false);
+        restartActive = false;
+        restartButton.SetActive(false);
+    }
+
+    public void RestartLevel()
     {
         Resume();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+    public void RestartFromCheckPoint()
+    {
+        Resume();
+        levelManager.GetComponent<CheckPointManager>().RespawnFromCheckPoint();
+    }
+
     public void ShowControls()
     {
         Controls.SetActive(true);
         controlsActive = true;
         if (settingsActive) HideSettings();
+        if (restartActive) HideRestart();
         controlsButton.SetActive(true);
     }
     public void HideControls()
@@ -94,6 +125,7 @@ public class PauseMenu : MonoBehaviour
         Settings.SetActive(true);
         settingsActive = true;
         if (controlsActive) HideControls();
+        if (restartActive) HideRestart();
         settingsButton.SetActive(true);
     }
     public void HideSettings()
