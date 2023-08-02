@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
     public bool watered;
     public bool grounded;
     public bool wallGroundCheck;
+    public float fallingSpeed = 0.0f;
 
     [Header("End Check")]
     /*public bool atEnd = false;
@@ -72,7 +73,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     public Climbing climbingScript;
-
+    public GameObject capsule;
     public Transform orientation;
 
     float horizontalInput;
@@ -118,6 +119,7 @@ public class PlayerMovement : MonoBehaviour
     bool soundWalking;
     bool soundRunning;
     bool soundJump;
+    bool falling;
 
     private void Awake()
     {
@@ -334,7 +336,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // check if desiredMoveSpeed has changed drastically
-        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)  // Change the 4 to a greater number if difference between sprinting and walking is increased
+        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 6f && moveSpeed != 0)  // Change the 4 to a greater number if difference between sprinting and walking is increased
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -375,7 +377,7 @@ public class PlayerMovement : MonoBehaviour
         while (time < difference)
         {
             moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
-
+            
             if (OnSlope())
             {
                 float slopeAngle = Vector3.Angle(Vector3.up, slopeHit.normal);
@@ -437,9 +439,39 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        // limiting speed on slope
-        if (OnSlope() && !exitingSlope)
+        if (falling && fallingSpeed > -30.0f && grounded)
         {
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            UnityEngine.Debug.Log("working");
+            capsule.GetComponent<Player>().TakeDamage(fallingSpeed);
+        }
+        if (rb.velocity.y < 0)
+        {
+            bool falling = true;
+            if (fallingSpeed > rb.velocity.y)
+            {
+                fallingSpeed = rb.velocity.y;
+            }
+            
+            UnityEngine.Debug.Log(fallingSpeed< -30.0f);
+            UnityEngine.Debug.Log(falling);
+            UnityEngine.Debug.Log(grounded);
+        }
+        
+        // limiting speed on slope
+        else if (OnSlope() && !exitingSlope)
+        {
+            //UnityEngine.Debug.Log("working2");
             if (rb.velocity.magnitude > moveSpeed)
             {
                 rb.velocity = rb.velocity.normalized * moveSpeed;
@@ -449,11 +481,13 @@ public class PlayerMovement : MonoBehaviour
         // limiting speed on ground or in air
         else
         {
+            //UnityEngine.Debug.Log("working3");
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-
+            
             //limit velocity if needed
-            if (flatVel.magnitude > moveSpeed)
+            if (flatVel.magnitude > moveSpeed && rb.velocity.y >=0)
             {
+                
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }
