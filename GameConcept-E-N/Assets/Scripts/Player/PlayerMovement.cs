@@ -446,9 +446,9 @@ public class PlayerMovement : MonoBehaviour
         {
             //UnityEngine.Debug.Log("fall damage: " + Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
             //capsule.GetComponent<Player>().TakeDamage(Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
-            //falling = false;
-            //fallingSpeed = 0.0f;
             capsule.GetComponent<Player>().Die();
+            falling = false;
+            fallingSpeed = 0.0f;
         }
         //Checks to see if the player is falling.
         if (rb.velocity.y < -20.0f)
