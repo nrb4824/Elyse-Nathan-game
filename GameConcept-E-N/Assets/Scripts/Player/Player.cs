@@ -11,15 +11,42 @@ public class Player : MonoBehaviour
     [SerializeField] private Image healthBar;
     private bool player = true;
 
+    [Header("Damage Overlay")]
+    [SerializeField] Image overlay;
+    public float duration;
+    public float fadeSpeed;
+    private float durationTimer;
+
     private void Awake()
     {
         maxHealth = health;
+        overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 0);
+    }
+
+    void Update()
+    {
+        if(overlay.color.a > 0)
+        {
+            if (health < 30) return;
+            durationTimer += Time.deltaTime;
+            if(durationTimer > duration)
+            {
+                // fade the image
+                float tempAlpha = overlay.color.a;
+                tempAlpha -= Time.deltaTime * fadeSpeed;
+                overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, tempAlpha);
+            }
+        }
+
     }
 
     public void TakeDamage(float amount)
     {
         health -= amount;
         healthBar.fillAmount = health / maxHealth;
+        durationTimer = 0.0f;
+        overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1);
+
         if (health <= 0f)
         {
             Die();
@@ -34,7 +61,7 @@ public class Player : MonoBehaviour
         healthBar.fillAmount = health / maxHealth;
     }
 
-    void Die()
+    public void Die()
     {
         LevelManager.instance.GameOver();
         p.SetActive(false);

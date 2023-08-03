@@ -57,7 +57,8 @@ public class PlayerMovement : MonoBehaviour
     public bool watered;
     public bool grounded;
     public bool wallGroundCheck;
-    public float fallingSpeed = 0.0f;
+    private float fallingSpeed = 0.0f;
+    public float fallingDistanceMin;
 
     [Header("End Check")]
     /*public bool atEnd = false;
@@ -439,39 +440,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        if (falling && fallingSpeed > -30.0f && grounded)
+        //Fall damage
+        //this will kill the player if they fall greater than the fallingDistanceMin
+        if (falling && fallingSpeed < -fallingDistanceMin && grounded)
         {
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            UnityEngine.Debug.Log("working");
-            capsule.GetComponent<Player>().TakeDamage(fallingSpeed);
+            //UnityEngine.Debug.Log("fall damage: " + Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
+            //capsule.GetComponent<Player>().TakeDamage(Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
+            //falling = false;
+            //fallingSpeed = 0.0f;
+            capsule.GetComponent<Player>().Die();
         }
-        if (rb.velocity.y < 0)
+        //Checks to see if the player is falling.
+        if (rb.velocity.y < -20.0f)
         {
-            bool falling = true;
+            UnityEngine.Debug.Log(rb.velocity.y);
+            falling = true;
             if (fallingSpeed > rb.velocity.y)
             {
                 fallingSpeed = rb.velocity.y;
             }
-            
-            UnityEngine.Debug.Log(fallingSpeed< -30.0f);
-            UnityEngine.Debug.Log(falling);
-            UnityEngine.Debug.Log(grounded);
         }
-        
+
         // limiting speed on slope
         else if (OnSlope() && !exitingSlope)
         {
-            //UnityEngine.Debug.Log("working2");
             if (rb.velocity.magnitude > moveSpeed)
             {
                 rb.velocity = rb.velocity.normalized * moveSpeed;
@@ -481,7 +473,6 @@ public class PlayerMovement : MonoBehaviour
         // limiting speed on ground or in air
         else
         {
-            //UnityEngine.Debug.Log("working3");
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
             
             //limit velocity if needed
