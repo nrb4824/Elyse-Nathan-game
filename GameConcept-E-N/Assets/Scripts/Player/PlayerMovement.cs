@@ -200,7 +200,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if(state != MovementState.rockClimb) MovePlayer();
         
     }
 
@@ -264,13 +264,6 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        //Mode - rockClimb
-        else if(rockClimb)
-        {
-            state = MovementState.rockClimb;
-            desiredMoveSpeed = rockClimbSpeed;
-        }
-
         //Mode - ceilingClimb
         else if(ceilingClimb)
         {
@@ -328,6 +321,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
 
+        }
+
+        //Mode - rockClimb
+        else if (rockClimb)
+        {
+            state = MovementState.rockClimb;
+            desiredMoveSpeed = rockClimbSpeed;
         }
 
         //Mode - Air

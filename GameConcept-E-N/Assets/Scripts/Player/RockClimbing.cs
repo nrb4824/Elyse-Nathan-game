@@ -14,7 +14,9 @@ public class RockClimbing : MonoBehaviour
 
     [Header("Climbing")]
     private bool climbing;
-    public float climbSpeed;
+    public float verticalClimbSpeed;
+    public float horizontalClimbSpeed;
+    public float diagonalClimbSpeed;
     private float horizontalInput;
     private float verticalInput;
 
@@ -53,8 +55,6 @@ public class RockClimbing : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        Debug.Log("horizontal Input: " + horizontalInput);
-        Debug.Log("vertical Input: " + verticalInput);
         // State 0 - LedgeGrabbing
         if (lg.holding)
         {
@@ -81,8 +81,6 @@ public class RockClimbing : MonoBehaviour
         {
             if (climbing) StopClimbing();
         }
-
-        if (wallFront && Input.GetKeyDown(jumpKey)) ClimbJump();
     }
 
     private void WallCheck()
@@ -99,7 +97,62 @@ public class RockClimbing : MonoBehaviour
 
     private void ClimbingMovement()
     {
-        if(horizontalInput == 0 && verticalInput == 0)
+        Vector3 wallNormal = frontWallHit.normal;
+
+        Vector3 wallRight = Vector3.Cross(wallNormal, transform.up);
+
+        Vector3 wallUp = Vector3.Cross(wallRight, wallNormal);
+
+        if (Input.GetKeyDown(jumpKey))
+        {
+            ClimbJump();
+            Debug.Log("jump");
+        }
+
+        //Get directional inputs, maybe change this to horizontal and vertical input later.
+        if(verticalInput == 1 && horizontalInput == -1)
+        {
+            //up left
+            rb.velocity = (wallUp - wallRight) * diagonalClimbSpeed;
+        }
+        else if (verticalInput == 1 && horizontalInput == 1)
+        {
+            //up right
+            rb.velocity = (wallUp + wallRight) * diagonalClimbSpeed;
+        }
+        else if (verticalInput == -1 && horizontalInput == -1)
+        {
+            //down left
+            rb.velocity = (-wallUp - wallRight) * diagonalClimbSpeed;
+        }
+        else if (verticalInput == -1 && horizontalInput == 1)
+        {
+            //down right
+            rb.velocity = (-wallUp + wallRight) * diagonalClimbSpeed;
+        }
+        else if (verticalInput == 1)
+        {
+            //up
+            rb.velocity = wallUp * verticalClimbSpeed;
+        }
+        else if (horizontalInput == -1)
+        {
+            //left
+            rb.velocity = -wallRight * horizontalClimbSpeed;
+        }
+        else if (verticalInput == -1)
+        {
+            //down
+            rb.velocity = -wallUp * verticalClimbSpeed;
+        }
+        else if (horizontalInput == 1)
+        {
+            //right
+            rb.velocity = wallRight * horizontalClimbSpeed;
+        }
+        
+        //check to see if the player is moving
+        if (horizontalInput == 0 && verticalInput == 0 && !exitingWall)
         {
             rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
         }
@@ -107,18 +160,15 @@ public class RockClimbing : MonoBehaviour
         {
             rb.constraints = ~RigidbodyConstraints.FreezePositionX & ~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionZ;
         }
-        if(Input.GetKey(KeyCode.W))
-        {
-            Debug.Log("input");
-           
-            rb.velocity = new Vector3(rb.velocity.x, climbSpeed, rb.velocity.z);
-        }
+
+
     }
 
     private void StopClimbing()
     {
         climbing = false;
         pm.rockClimb = false;
+        rb.constraints = ~RigidbodyConstraints.FreezePositionX & ~RigidbodyConstraints.FreezePositionY & ~RigidbodyConstraints.FreezePositionZ;
     }
 
     private void ClimbJump()
