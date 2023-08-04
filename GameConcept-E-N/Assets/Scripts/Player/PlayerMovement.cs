@@ -450,21 +450,20 @@ public class PlayerMovement : MonoBehaviour
             falling = false;
             fallingSpeed = 0.0f;
         }
-        //Checks to see if the player is falling.
-        if (rb.velocity.y < -20.0f)
-        {
-            UnityEngine.Debug.Log(rb.velocity.y);
-            falling = true;
-            if (fallingSpeed > rb.velocity.y)
-            {
-                fallingSpeed = rb.velocity.y;
-            }
-        }
 
         // limiting speed on slope
         else if (OnSlope() && !exitingSlope)
         {
-            if (rb.velocity.magnitude > moveSpeed)
+            //Checks to see if the player is falling.
+            if (rb.velocity.y < -30.0f)
+            {
+                falling = true;
+                if (fallingSpeed > rb.velocity.y)
+                {
+                    fallingSpeed = rb.velocity.y;
+                }
+            }
+            else if (rb.velocity.magnitude > moveSpeed)
             {
                 rb.velocity = rb.velocity.normalized * moveSpeed;
             }
@@ -474,11 +473,11 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
-            
+
             //limit velocity if needed
-            if (flatVel.magnitude > moveSpeed && rb.velocity.y >=0)
+            if (flatVel.magnitude > moveSpeed)
             {
-                
+
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }

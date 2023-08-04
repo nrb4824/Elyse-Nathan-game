@@ -53,6 +53,8 @@ public class RockClimbing : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+        Debug.Log("horizontal Input: " + horizontalInput);
+        Debug.Log("vertical Input: " + verticalInput);
         // State 0 - LedgeGrabbing
         if (lg.holding)
         {
