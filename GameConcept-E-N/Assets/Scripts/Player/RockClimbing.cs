@@ -21,6 +21,8 @@ public class RockClimbing : MonoBehaviour
     private float verticalInput;
     public float endForwardForce;
     public float endUpwardForce;
+    public float sideForwardForce;
+    public float sideUpwardForce;
 
     [Header("ClimbJumping")]
     public float climbJumpUpForce;
@@ -37,6 +39,11 @@ public class RockClimbing : MonoBehaviour
     public bool wallFront;
     private RaycastHit eyeLevelWallHit;
     public bool eyeLevelWall;
+    private RaycastHit lastWallHit;
+    private RaycastHit leftWallHit;
+    public bool leftWall;
+    private RaycastHit rightWallHit;
+    public bool rightWall;
 
     [Header("Exiting")]
     public bool exitingWall;
@@ -57,7 +64,6 @@ public class RockClimbing : MonoBehaviour
 
     private void StateMachine()
     {
-        Debug.Log(wallLookAngle);
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
         // State 0 - LedgeGrabbing
@@ -67,7 +73,7 @@ public class RockClimbing : MonoBehaviour
         }
 
         // State 1 -Climbing
-        else if (wallFront && wallLookAngle < maxWallLookAngle && !exitingWall && eyeLevelWall)
+        else if (wallFront && !exitingWall && eyeLevelWall)
         {
             if (!climbing) StartClimbing();
 
@@ -83,13 +89,17 @@ public class RockClimbing : MonoBehaviour
         }
 
         // dismount
-        else if( !eyeLevelWall && wallFront && !exitingWall)
+        else if( !eyeLevelWall && wallFront && !exitingWall && !rightWall && !leftWall)
         {
             endClimbing();
             StopClimbing();
-            Debug.Log("working");
             Invoke(nameof(DelayedEndForceUp), 0.05f);
             Invoke(nameof(DelayedEndForceForward), 0.3f);
+        }
+
+        else if (climbing && wallLookAngle < maxWallLookAngle)
+        {
+            if (!leftWall && !rightWall) StopClimbing();
         }
 
         // State 3 - None
@@ -112,11 +122,41 @@ public class RockClimbing : MonoBehaviour
         rb.AddForce(forceToAdd, ForceMode.Impulse);
     }
 
+    private void ForceUp()
+    {
+        Vector3 forceToAdd = orientation.up * sideUpwardForce;
+        rb.velocity = Vector3.zero;
+        rb.AddForce(forceToAdd, ForceMode.Impulse);
+    }
+    private void ForceForward()
+    {
+        Vector3 forceToAdd = lg.cam.forward * sideForwardForce;
+        rb.velocity = Vector3.zero;
+        rb.AddForce(forceToAdd, ForceMode.Impulse);
+    }
+
     private void WallCheck()
     {
-        wallFront = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward, out frontWallHit, detectionLength, Climb);
-        eyeLevelWall = Physics.SphereCast(transform.position + new Vector3(0.0f, 1.0f, 0.0f), sphereCastRadius, orientation.forward, out eyeLevelWallHit, detectionLength, Climb);
-        wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal);
+        
+        wallFront = Physics.Raycast(transform.position, orientation.forward, out frontWallHit, detectionLength, Climb);
+        eyeLevelWall = Physics.Raycast(transform.position + new Vector3(0.0f, 0.75f, 0.0f), orientation.forward, out eyeLevelWallHit, detectionLength, Physics.AllLayers);
+        leftWall = Physics.SphereCast(transform.position, sphereCastRadius, -orientation.right, out leftWallHit, detectionLength-.5f, Climb);
+        rightWall = Physics.SphereCast(transform.position, sphereCastRadius, orientation.right, out rightWallHit, detectionLength-.5f, Climb);
+        //wallFront = Physics.SphereCast(transform.position, sphereCastRadius-.1f, orientation.forward, out frontWallHit, detectionLength, Climb);
+        //eyeLevelWall = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward + new Vector3(0.0f, 1.0f, 0.0f), out eyeLevelWallHit, detectionLength, Physics.AllLayers);
+        //leftWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, -orientation.right, out leftWallHit, detectionLength , Climb);
+        //rightWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, orientation.right, out rightWallHit, detectionLength, Climb);
+
+        if (wallFront)
+        {
+            wallLookAngle = Vector3.Angle(orientation.forward, -frontWallHit.normal);
+            lastWallHit = frontWallHit;
+        }
+        else
+        {
+            wallLookAngle = Vector3.Angle(orientation.forward, -lastWallHit.normal);
+        }
+        
     }
 
     private void StartClimbing()
@@ -135,6 +175,11 @@ public class RockClimbing : MonoBehaviour
 
         if (Input.GetKeyDown(jumpKey))
         {
+            if((leftWall || rightWall) && !eyeLevelWall)
+            {
+                Invoke(nameof(ForceUp), 0.0f);
+                Invoke(nameof(ForceForward), 0.0f);
+            }
             ClimbJump();
         }
 
