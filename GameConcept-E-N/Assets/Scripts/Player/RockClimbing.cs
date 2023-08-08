@@ -138,14 +138,14 @@ public class RockClimbing : MonoBehaviour
     private void WallCheck()
     {
         
-        wallFront = Physics.Raycast(transform.position, orientation.forward, out frontWallHit, detectionLength, Climb);
-        eyeLevelWall = Physics.Raycast(transform.position + new Vector3(0.0f, 0.75f, 0.0f), orientation.forward, out eyeLevelWallHit, detectionLength, Physics.AllLayers);
-        leftWall = Physics.SphereCast(transform.position, sphereCastRadius, -orientation.right, out leftWallHit, detectionLength-.5f, Climb);
-        rightWall = Physics.SphereCast(transform.position, sphereCastRadius, orientation.right, out rightWallHit, detectionLength-.5f, Climb);
-        //wallFront = Physics.SphereCast(transform.position, sphereCastRadius-.1f, orientation.forward, out frontWallHit, detectionLength, Climb);
-        //eyeLevelWall = Physics.SphereCast(transform.position, sphereCastRadius, orientation.forward + new Vector3(0.0f, 1.0f, 0.0f), out eyeLevelWallHit, detectionLength, Physics.AllLayers);
-        //leftWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, -orientation.right, out leftWallHit, detectionLength , Climb);
-        //rightWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, orientation.right, out rightWallHit, detectionLength, Climb);
+        //wallFront = Physics.Raycast(transform.position, orientation.forward, out frontWallHit, detectionLength, Climb);
+        //eyeLevelWall = Physics.Raycast(transform.position + new Vector3(0.0f, 0.75f, 0.0f), orientation.forward, out eyeLevelWallHit, detectionLength+.4f, Physics.AllLayers);
+        //leftWall = Physics.SphereCast(transform.position, sphereCastRadius, -orientation.right, out leftWallHit, detectionLength-.5f, Climb);
+        //rightWall = Physics.SphereCast(transform.position, sphereCastRadius, orientation.right, out rightWallHit, detectionLength-.5f, Climb);
+        wallFront = Physics.SphereCast(transform.position, sphereCastRadius+.1f, orientation.forward, out frontWallHit, detectionLength, Climb);
+        eyeLevelWall = Physics.SphereCast(transform.position, sphereCastRadius+.1f, orientation.forward + new Vector3(0.0f, 1.0f, 0.0f), out eyeLevelWallHit, detectionLength, Physics.AllLayers);
+        leftWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, -orientation.right, out leftWallHit, detectionLength , Climb);
+        rightWall = Physics.SphereCast(transform.position, sphereCastRadius-.1f, orientation.right, out rightWallHit, detectionLength, Climb);
 
         if (wallFront)
         {
