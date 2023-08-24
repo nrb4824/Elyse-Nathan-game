@@ -26,8 +26,9 @@ public class Gun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButton("Fire1") && Time.time >= nextTimeToFire && PauseMenu.GameIsPaused == false)
+        if(Input.GetKey(KeyCode.Mouse0) && Time.time >= nextTimeToFire && PauseMenu.GameIsPaused == false)
         {
+            UnityEngine.Debug.Log("working");
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
         }
@@ -66,8 +67,12 @@ public class Gun : MonoBehaviour
             }
 
             //instantiates and destroys bullet impact effect.
-            GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
-            Destroy(impactGameObject, 2f);
+            if(hit.transform.gameObject.layer != LayerMask.NameToLayer("EnemyContainment"))
+            {
+                GameObject impactGameObject = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal));
+                Destroy(impactGameObject, 2f);
+            }
+            
             
             
         }

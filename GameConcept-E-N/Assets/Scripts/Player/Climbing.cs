@@ -42,7 +42,6 @@ public class Climbing : MonoBehaviour
     public float exitWallTime;
     private float exitWallTimer;
 
-
     private void Start()
     {
         lg = GetComponent<LedgeGrabbing>();
@@ -104,6 +103,9 @@ public class Climbing : MonoBehaviour
     {
         climbing = true;
         pm.climbing = true;
+        
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        rb.freezeRotation = true;
 
         lastWall = frontWallHit.transform;
         lastWallNormal = frontWallHit.normal;
@@ -112,12 +114,15 @@ public class Climbing : MonoBehaviour
     private void ClimbingMovement()
     {
         rb.velocity = new Vector3(rb.velocity.x, climbSpeed, rb.velocity.z);
+        rb.freezeRotation = true;
     }
 
     private void StopClimbing()
     {
         climbing = false;
         pm.climbing = false;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionX & ~RigidbodyConstraints.FreezePositionZ;
+        rb.freezeRotation = true;
     }
 
     private void ClimbJump()

@@ -15,11 +15,14 @@ public class PlayerMovement : MonoBehaviour
     public float slideSpeed;
     public float wallrunSpeed;
     public float climbSpeed;
+    public float ceilingClimbSpeed;
+    public float rockClimbSpeed;
 
     public float speedIncreaseMultiplier;
     public float slopeIncreaseMultiplier;
 
     public float groundDrag;
+    public float ceilingDrag;
 
     [Header("Jumping")]
     public float jumpForce;
@@ -32,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
     public float crouchSpeed;
     public float crouchYScale;
     private float startYScale;
+    private bool lowCeiling;
+    private bool crouch;
 
     [Header("Stairs")]
     public GameObject stepRayUpper;
@@ -51,10 +56,15 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask Water;
     public bool watered;
     public bool grounded;
+    public bool wallGroundCheck;
+    private float fallingSpeed = 0.0f;
+    public float fallingDistanceMin;
 
     [Header("End Check")]
+    /*public bool atEnd = false;
+    public LayerMask EndBlock;*/
     public bool atEnd = false;
-    public LayerMask EndBlock;
+    public KeyCode EndKey = KeyCode.E;
 
     [Header("Slope Handling")]
     public float maxSlopeAngle;
@@ -64,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("References")]
     public Climbing climbingScript;
-
+    public GameObject capsule;
     public Transform orientation;
 
     float horizontalInput;
@@ -83,22 +93,34 @@ public class PlayerMovement : MonoBehaviour
         sprinting,
         wallRunning,
         climbing,
+        ceilingClimb,
+        rockClimb,
         crouching,
         sliding,
-        air
+        air,
     }
 
     public bool sliding;
     public bool crouching;
     public bool wallrunning;
     public bool climbing;
+    public bool ceilingClimb;
+    public bool rockClimb;
 
     public bool freeze;
     public bool unlimited;
 
     public bool restricted;
 
+    public bool standing;
+
+
     bool keepMomentum;
+
+    bool soundWalking;
+    bool soundRunning;
+    bool soundJump;
+    bool falling;
 
     private void Awake()
     {
@@ -120,9 +142,10 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         // ground check
-        atEnd = Physics.Raycast(transform.position, Vector3.forward, 0.6f, EndBlock);
         grounded = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Ground);
         watered = Physics.Raycast(transform.position, Vector3.down, playerHeight * 0.5f + 0.2f, Water);
+        lowCeiling = Physics.Raycast(transform.position, Vector3.up, playerHeight * 0.5f + 0.2f, Ground);
+
         MyInput();
         SpeedControl();
         StateHandler();
@@ -136,17 +159,48 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (grounded)
         {
+            wallGroundCheck = true;
             rb.drag = groundDrag;
+        }
+        else if(ceilingClimb)
+        {
+            rb.drag = ceilingDrag;
         }
         else
         {
             rb.drag = 0;
         }
+
+        if (state == MovementState.walking && !soundWalking && !standing)
+        {
+            soundWalking = true;
+            FindObjectOfType<AudioManager>().Play("Walking");
+        }
+        else if((state != MovementState.walking || standing) && soundWalking)
+        {
+            soundWalking = false;
+            FindObjectOfType<AudioManager>().Stop("Walking");
+        }
+        else if (!soundRunning && state == MovementState.sprinting && !standing)
+        {
+            soundRunning = true;
+            FindObjectOfType<AudioManager>().Play("Running");
+        }
+        else if(state != MovementState.sprinting && soundRunning)
+        {
+            soundRunning = false;
+            FindObjectOfType<AudioManager>().Stop("Running");
+        }
+        else if(state != MovementState.air && soundJump)
+            {
+            soundJump = false;
+            FindObjectOfType<AudioManager>().Play("JumpingDown");
+        }
     }
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if(state != MovementState.rockClimb) MovePlayer();
         
     }
 
@@ -154,6 +208,9 @@ public class PlayerMovement : MonoBehaviour
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
+
+        if (horizontalInput != 0f || verticalInput != 0f) standing = false;
+        else standing = true;
 
         // when to jump
         if (Input.GetKey(jumpKey) && readyToJump && grounded)
@@ -164,31 +221,32 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // start crouch
-        if (Input.GetKeyDown(crouchKey))
+        if (Input.GetKeyDown(crouchKey) && !crouch)
         {
             transform.localScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
             rb.AddForce(Vector3.down * 5f, ForceMode.Impulse);
+            crouch = true;
         }
 
         // stop crouch
-        if (Input.GetKeyUp(crouchKey))
+        else if (Input.GetKeyDown(crouchKey) && !lowCeiling && crouch)
         {
             transform.localScale = new Vector3(transform.localScale.x, startYScale, transform.localScale.z);
+            crouch = false;
         }
     }
 
     private void StateHandler()
     {   // at the end of the game
-        if(atEnd)
+        if(atEnd && Input.GetKey(EndKey))
         {
+            
             LevelManager.instance.atEnd = true;
-            if(LevelManager.instance.destroyed)
-            {
-                LevelManager.instance.GameWon();
-                gameObject.SetActive(false);
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+            LevelManager.instance.GameWon();
+            gameObject.SetActive(false);
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            
             
         }
         // Mode - Freeze
@@ -204,6 +262,13 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.unlimited;
             moveSpeed = 999f;
             return;
+        }
+
+        //Mode - ceilingClimb
+        else if(ceilingClimb)
+        {
+            state = MovementState.ceilingClimb;
+            desiredMoveSpeed = ceilingClimbSpeed;
         }
 
         // Mode - Climbing
@@ -255,6 +320,14 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.walking;
             desiredMoveSpeed = walkSpeed;
+
+        }
+
+        //Mode - rockClimb
+        else if (rockClimb)
+        {
+            state = MovementState.rockClimb;
+            desiredMoveSpeed = rockClimbSpeed;
         }
 
         //Mode - Air
@@ -264,7 +337,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // check if desiredMoveSpeed has changed drastically
-        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 4f && moveSpeed != 0)  // Change the 4 to a greater number if difference between sprinting and walking is increased
+        if (Mathf.Abs(desiredMoveSpeed - lastDesiredMoveSpeed) > 6f && moveSpeed != 0)  // Change the 4 to a greater number if difference between sprinting and walking is increased
         {
             StopAllCoroutines();
             StartCoroutine(SmoothlyLerpMoveSpeed());
@@ -305,7 +378,7 @@ public class PlayerMovement : MonoBehaviour
         while (time < difference)
         {
             moveSpeed = Mathf.Lerp(startValue, desiredMoveSpeed, time / difference);
-
+            
             if (OnSlope())
             {
                 float slopeAngle = Vector3.Angle(Vector3.up, slopeHit.normal);
@@ -325,6 +398,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void MovePlayer()
     {
+        
         if (climbingScript.exitingWall || restricted) return;
 
         //calculate movement direction
@@ -344,8 +418,9 @@ public class PlayerMovement : MonoBehaviour
         // on ground
         else if (grounded)
         {
+
             rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
-            stepClimb();
+            //stepClimb();
         }
 
         // in air
@@ -365,10 +440,30 @@ public class PlayerMovement : MonoBehaviour
 
     private void SpeedControl()
     {
-        // limiting speed on slope
-        if (OnSlope() && !exitingSlope)
+        //Fall damage
+        //this will kill the player if they fall greater than the fallingDistanceMin
+        if (falling && fallingSpeed < -fallingDistanceMin && grounded)
         {
-            if (rb.velocity.magnitude > moveSpeed)
+            //UnityEngine.Debug.Log("fall damage: " + Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
+            //capsule.GetComponent<Player>().TakeDamage(Mathf.Exp(Mathf.Round(-fallingSpeed - fallingDistanceMin)));
+            capsule.GetComponent<Player>().Die();
+            falling = false;
+            fallingSpeed = 0.0f;
+        }
+
+        // limiting speed on slope
+        else if (OnSlope() && !exitingSlope)
+        {
+            //Checks to see if the player is falling.
+            if (rb.velocity.y < -30.0f)
+            {
+                falling = true;
+                if (fallingSpeed > rb.velocity.y)
+                {
+                    fallingSpeed = rb.velocity.y;
+                }
+            }
+            else if (rb.velocity.magnitude > moveSpeed)
             {
                 rb.velocity = rb.velocity.normalized * moveSpeed;
             }
@@ -382,6 +477,7 @@ public class PlayerMovement : MonoBehaviour
             //limit velocity if needed
             if (flatVel.magnitude > moveSpeed)
             {
+
                 Vector3 limitedVel = flatVel.normalized * moveSpeed;
                 rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
             }
@@ -390,18 +486,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void Jump()
     {
+        FindObjectOfType<AudioManager>().Play("JumpingUp");
         exitingSlope = true;
 
         // reset y velocity
         rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
         rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+        
     }
 
     private void ResetJump()
     {
+        soundJump = true;
         readyToJump = true;
-
         exitingSlope = false;
     }
 
@@ -429,7 +527,7 @@ public class PlayerMovement : MonoBehaviour
             RaycastHit hitUpper;
             if (!Physics.Raycast(stepRayUpper.transform.position, transform.TransformDirection(Vector3.forward), out hitUpper, .7f))
             {
-                rb.position -= new Vector3(0f, -stepSmooth, 0f);
+                rb.position -= new Vector3(0f, stepSmooth, 0f);
             }
 
         }
@@ -454,4 +552,27 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "End")
+        {
+            TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+            o.message.SetActive(true);
+            o.active = true;
+            atEnd = true;
+        }
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "End")
+        {
+            TutorialArea o = other.gameObject.GetComponent<TutorialArea>();
+            o.message.SetActive(false);
+            o.active = false;
+            atEnd = false;
+        }
+    }
 }
+
+
