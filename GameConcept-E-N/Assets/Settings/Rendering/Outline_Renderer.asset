@@ -50,7 +50,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RendererFeatures:
   - {fileID: -2679510083013857629}
-  m_RendererFeatureMap: a3aee1b1c677d0da
+  - {fileID: 1068824092092529630}
+  m_RendererFeatureMap: a3aee1b1c677d0dadefb8d50d939d50e
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
   shaders:
@@ -79,3 +80,34 @@ MonoBehaviour:
   m_ShadowTransparentReceive: 1
   m_RenderingMode: 0
   m_AccurateGbufferNormals: 0
+--- !u!114 &1068824092092529630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3aa16b349662c9b4ba7704c70f82537e, type: 3}
+  m_Name: NewOilPaintingEffect
+  m_EditorClassIdentifier: 
+  m_Active: 1
+  settings:
+    anisotropicKuwaharaFilterSettings:
+      filterKernelSectors: 4
+      filterKernelSmoothness: 0.091
+      filterRadius: 7.58
+      filterSharpness: 16
+      eccentricity: 0.13
+      iterations: 1
+    edgeFlowSettings:
+      noiseTexture: {fileID: 2800000, guid: 17a572670d7b83c479a8c5ca7972941a, type: 3}
+      streamLineLength: 8
+      streamKernelStrength: 0.288
+    compositorSettings:
+      edgeContribution: 4
+      flowContribution: 1
+      depthContribution: 1
+      bumpPower: 0.484
+      bumpIntensity: 0.358
