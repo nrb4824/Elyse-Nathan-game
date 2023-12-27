@@ -1,12 +1,26 @@
-#ifndef COLOR_PALETTE_INCLUDED
-#define COLOR_PALETTE_INCLUDED
+//#ifndef COLOR_PALETTE_INCLUDED
+//#define COLOR_PALETTE_INCLUDED
+//
+/////////////////////////////////////////////////////////////////////
+//
+#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+//
+//void ColorPalette_float (UnityTexture2D ppalette, float xx, float yy, out float4 ppixel_colour) {
+//
+//	ppixel_colour = ppalette.SetPixel(xx, yy, 0);
+//
+//}
+//
+//#endif
 
-///////////////////////////////////////////////////////////////////
+//private Sprite mySprite
 
-float ColorPalette (Texture2D palette, float x, float y, out float4 pixel_colour) {
+#ifndef GRAYSCALE_INCLUDED
+#define GRAYSCALE_INCLUDED
 
-	pixel_colour = palette.GetPixel(1, 5, 0);
-
+void Grayscale_float(UnityTexture2D palette, float2 pos, out float4 output)
+{
+    output = palette.SetPixel(pos[0], pos[1]);
 }
 
-#endif
+#endif // GRAYSCALE_INCLUDED
