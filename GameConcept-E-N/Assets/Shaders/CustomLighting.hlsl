@@ -28,6 +28,7 @@ struct CustomLightingData {
     float fogFactor;
 };
 
+
 // Translate a [0, 1] smoothness value to an exponent 
 float GetSmoothnessPower(float rawSmoothness) {
     return exp2(10 * rawSmoothness + 1);
