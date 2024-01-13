@@ -30,7 +30,7 @@ Game Features:\
     &emsp;&emsp;• Death menu\
     &emsp;&emsp;• Victory menu\
   &emsp;• Audio: Only the most basic audio has been implemented so far. It is almost all placeholder until proper\
-  &emsp;sound effects and music can be made.\
+  &emsp;sound effects and music can be made.
 
 ![GameConcept-E-N 1_13_2024 4_29_44 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/db6a6357-3992-4195-b89a-fcf2720ba065)
 ![GameConcept-E-N 1_13_2024 4_32_33 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/c1ead56d-0383-4ff1-a038-1036b4fff305)
