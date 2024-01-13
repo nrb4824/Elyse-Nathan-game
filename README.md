@@ -32,7 +32,26 @@ Game Features:\
   &emsp;• Audio: Only the most basic audio has been implemented so far. It is almost all placeholder until proper\
   &emsp;sound effects and music can be made.\
 
-![GameConcept-E-N 1_13_2024 4_21_56 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/481488b3-2072-46fe-a44a-266d5f2e3217)
+![GameConcept-E-N 1_13_2024 4_29_44 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/db6a6357-3992-4195-b89a-fcf2720ba065)
+![GameConcept-E-N 1_13_2024 4_32_33 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/c1ead56d-0383-4ff1-a038-1036b4fff305)
+![GameConcept-E-N 1_13_2024 4_32_55 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/ec662e21-1ea9-4e83-a1a1-be4823115585)
+![GameConcept-E-N 1_13_2024 4_33_09 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/5a41c69b-b831-48e3-9163-2b4dcf54f112)
+![GameConcept-E-N 1_13_2024 4_33_28 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/3acf422a-70ae-4e66-acd4-0dfc5a72af2e)
+![GameConcept-E-N 1_13_2024 4_34_08 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/4d9ac673-630a-4277-a850-c8bc95ade82e)
+![GameConcept-E-N 1_13_2024 4_34_37 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/ff2eb38f-3840-4d19-8689-fcafa5bac322)
+![GameConcept-E-N 1_13_2024 4_37_11 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/b50b242a-f37b-4c17-8f97-c1f7b5f8170a)
+![GameConcept-E-N 1_13_2024 4_37_23 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/707fa02e-38b8-47c1-b433-543a7b0733ae)
+![GameConcept-E-N 1_13_2024 4_36_44 PM](https://github.com/nrb4824/Elyse-Nathan-game/assets/78773812/044dcc8b-301c-4bdc-a12d-4367938bb61c)
+
+
+
+
+
+
+
+
+
+
 
   
 Assets Used:
